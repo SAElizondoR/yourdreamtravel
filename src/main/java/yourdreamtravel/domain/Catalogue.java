@@ -1,5 +1,7 @@
 package yourdreamtravel.domain;
 
+import java.util.ArrayList;
+
 public class Catalogue {
     private final CatalogueId id;
     private final ArrayList<Lieu> destinations;
