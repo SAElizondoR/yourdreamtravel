@@ -1,10 +1,10 @@
 package yourdreamtravel.domain;
 
-public class DestinationId {
+public class LieuId {
     private static Integer counter = 0;
     private final Integer value;
 
-    public DestinationId() {
+    public LieuId() {
         this.value = counter++;
     }
 
@@ -13,9 +13,9 @@ public class DestinationId {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof DestinationId))
+        if (!(obj instanceof LieuId))
             return false;
-        DestinationId other = (DestinationId)obj;
+        LieuId other = (LieuId)obj;
         return value.equals(other.value);
     }
 

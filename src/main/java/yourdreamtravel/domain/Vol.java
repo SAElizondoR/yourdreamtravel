@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Vol {
     private final VolId id;
-    private final String depart;
-    private final String destination;
+    private final Lieu depart;
+    private final Lieu destination;
     private final Date date;
     private final Integer classe;
 }
