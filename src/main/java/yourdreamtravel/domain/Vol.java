@@ -8,4 +8,13 @@ public class Vol {
     private final Lieu destination;
     private final Date date;
     private final Integer classe;
+
+    public Vol(VolId id, Lieu depart, Lieu destination, Date date,
+        Integer classe) {
+            this.id = id;
+            this.depart = depart;
+            this.destination = destination;
+            this.date = date;
+            this.classe = classe;
+        }
 }
