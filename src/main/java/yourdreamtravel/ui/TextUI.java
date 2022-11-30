@@ -7,12 +7,12 @@ import java.io.InputStreamReader;
 import yourdreamtravel.application.AgenceController;
 
 public class TextUI {
-    // private final AgenceController agenceController;
+    private final AgenceController agenceController;
     private final BufferedReader buff;
 
     public TextUI() {
         buff = new BufferedReader(new InputStreamReader(System.in));
-        // agenceController = new AgenceController();
+        agenceController = new AgenceController();
     }
 
     public void run() {
@@ -37,6 +37,8 @@ public class TextUI {
     private void creerClient() {
         System.out.println("\nEntrez le nom: ");
         String nom = lireChaine();
+        agenceController.getAgence().addClient(nom);
+        System.out.println("Client ajouté!");
     }
 
     private String lireChaine() {

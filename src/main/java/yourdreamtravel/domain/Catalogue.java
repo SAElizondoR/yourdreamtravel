@@ -3,14 +3,14 @@ package yourdreamtravel.domain;
 import java.util.ArrayList;
 
 public class Catalogue {
-    private final CatalogueId id;
-    private final ArrayList<Lieu> destinations;
-    private final ArrayList<Vol> vols;
-    private final ArrayList<Hotel> hotels;
-    private final ArrayList<LoueurVoiture> loueurs;
+    private CatalogueId id;
+    private ArrayList<Lieu> destinations;
+    private ArrayList<Vol> vols;
+    private ArrayList<Hotel> hotels;
+    private ArrayList<LoueurVoiture> loueurs;
 
     public void addDestination(String nom) {
-        destinations.add(new Destination(new DestinationId(), nom));
+        // destinations.add(new Lieu(nom));
     }
 
     public void addVol() {
