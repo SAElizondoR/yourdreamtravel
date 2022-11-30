@@ -20,9 +20,10 @@ public class TextUI {
     public void run() {
         int choix = 0;
         do {
-            System.out.println("SÉLECTIONER UNE OPTION");
+            System.out.println("\nSÉLECTIONNER UNE OPTION");
             choix = choisirOption(Arrays.asList("Créer client", "Selectionner un client",
                 "Quitter le programme"));
+            System.out.println();
             switch (choix) {
                 case 1:
                     creerClient();
@@ -38,7 +39,7 @@ public class TextUI {
 
     private void creerClient() {
         System.out.println("CRÉER CLIENT");
-        System.out.print("\nEntrez le nom: ");
+        System.out.print("Entrez le nom: ");
         String nom = lireChaine();
         agenceService.addClient(nom);
         System.out.println("Client ajouté!");
@@ -49,12 +50,30 @@ public class TextUI {
         List<String> clients = agenceService.getClientNames();
         int clientIndex = choisirOption(clients);
         agenceService.setClientActifByIndex(clientIndex - 1);
+        faireReservationVoyage();
+    }
+
+    private void clientMenu() {
+        System.out.println("MENU DU CLIENT");
+        int choix = choisirOption(Arrays.asList("Faire une réservation de voyage",
+            "Quitter le menu du client"));
+        System.out.println();
+        switch (choix) {
+            case 1:
+                break;
+            default:
+        }
+    }
+
+    private void faireReservationVoyage() {
+        System.out.println("FAIRE UNE RÉSERVATION DE VOYAGE");
+        System.out.println("\nSélectionnez une destination pour voyager:");
     }
 
     private int choisirOption(List<String> options) {
         int compteur = 1;
         for (String option: options)
-            System.out.printf("%d) %s\n", compteur++, option);
+            System.out.printf("%d) %s%n", compteur++, option);
         System.out.print("Votre choix: ");
         try {
             return Integer.parseInt(lireChaine());
