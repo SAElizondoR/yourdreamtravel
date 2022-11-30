@@ -1,6 +1,7 @@
 package yourdreamtravel.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Agence {
     private final AgenceId id;
@@ -17,5 +18,17 @@ public class Agence {
 
     public void addClient(String nom) {
         clients.add(new Client(new ClientId(), nom));
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public List<String> getClientNames() {
+        List<String> names = new ArrayList<>();
+        for (Client client: clients) {
+            names.add(client.getNom());
+        }
+        return names;
     }
 }

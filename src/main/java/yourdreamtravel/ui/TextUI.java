@@ -3,42 +3,65 @@ package yourdreamtravel.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.List;
 
-import yourdreamtravel.application.AgenceController;
+import yourdreamtravel.application.AgenceService;
 
 public class TextUI {
-    private final AgenceController agenceController;
+    private final AgenceService agenceService;
     private final BufferedReader buff;
 
     public TextUI() {
         buff = new BufferedReader(new InputStreamReader(System.in));
-        agenceController = new AgenceController();
+        agenceService = new AgenceService();
     }
 
     public void run() {
         int choix = 0;
         do {
-            System.out.println("\n1) Créer client\n2) Selectionner client\n3) Quitter le programme\nVotre choix: ");
-            try {
-                choix = Integer.parseInt(lireChaine());
-            } catch (NumberFormatException e) {
-                System.err.println("Entrez un numéro.\n");
-            }
+            System.out.println("SÉLECTIONER UNE OPTION");
+            choix = choisirOption(Arrays.asList("Créer client", "Selectionner un client",
+                "Quitter le programme"));
             switch (choix) {
                 case 1:
+                    creerClient();
                     break;
                 case 2:
+                    selectionnerClient();
                     break;
                 default:
             }
+            System.out.println();
         } while (choix != 3);
     }
 
     private void creerClient() {
-        System.out.println("\nEntrez le nom: ");
+        System.out.println("CRÉER CLIENT");
+        System.out.print("\nEntrez le nom: ");
         String nom = lireChaine();
-        agenceController.getAgence().addClient(nom);
+        agenceService.addClient(nom);
         System.out.println("Client ajouté!");
+    }
+
+    private void selectionnerClient() {
+        System.out.println("SÉLECTIONNER CLIENT");
+        List<String> clients = agenceService.getClientNames();
+        int clientIndex = choisirOption(clients);
+        agenceService.setClientActifByIndex(clientIndex - 1);
+    }
+
+    private int choisirOption(List<String> options) {
+        int compteur = 1;
+        for (String option: options)
+            System.out.printf("%d) %s\n", compteur++, option);
+        System.out.print("Votre choix: ");
+        try {
+            return Integer.parseInt(lireChaine());
+        } catch (NumberFormatException e) {
+            System.err.println("Entrez un numéro.\n");
+        }
+        return 0;
     }
 
     private String lireChaine() {

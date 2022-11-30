@@ -8,4 +8,8 @@ public class Client {
         this.id = id;
         this.nom = nom;
     }
+
+    public String getNom() {
+        return nom;
+    }
 }
