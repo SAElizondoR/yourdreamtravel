@@ -31,4 +31,8 @@ public class Agence {
         }
         return names;
     }
+
+    public Catalogue getCatalogue() {
+        return catalogue;
+    }
 }

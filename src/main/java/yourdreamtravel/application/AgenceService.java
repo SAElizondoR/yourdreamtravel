@@ -24,4 +24,8 @@ public class AgenceService {
     public void setClientActifByIndex(int clientIndex) {
         clientActif = agence.getClients().get(clientIndex);
     }
+
+    public List<String> getDestinationNames() {
+        return agence.getCatalogue().getDestinationNames();
+    }
 }

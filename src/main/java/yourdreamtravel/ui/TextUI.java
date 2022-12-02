@@ -47,10 +47,10 @@ public class TextUI {
 
     private void selectionnerClient() {
         System.out.println("SÉLECTIONNER CLIENT");
-        List<String> clients = agenceService.getClientNames();
-        int clientIndex = choisirOption(clients);
+        int clientIndex = choisirOption(agenceService.getClientNames());
         agenceService.setClientActifByIndex(clientIndex - 1);
-        faireReservationVoyage();
+        System.out.println();
+        clientMenu();
     }
 
     private void clientMenu() {
@@ -58,16 +58,14 @@ public class TextUI {
         int choix = choisirOption(Arrays.asList("Faire une réservation de voyage",
             "Quitter le menu du client"));
         System.out.println();
-        switch (choix) {
-            case 1:
-                break;
-            default:
-        }
+        if (choix == 1)
+            faireReservationVoyage();
     }
 
     private void faireReservationVoyage() {
         System.out.println("FAIRE UNE RÉSERVATION DE VOYAGE");
         System.out.println("\nSélectionnez une destination pour voyager:");
+        choisirOption(agenceService.getDestinationNames());
     }
 
     private int choisirOption(List<String> options) {
