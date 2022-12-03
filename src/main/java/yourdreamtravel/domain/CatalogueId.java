@@ -1,10 +1,11 @@
 package yourdreamtravel.domain;
 
 public class CatalogueId {
+    private static Integer counter = 0;
     private final Integer value;
 
-    public CatalogueId(Integer value) {
-        this.value = value;
+    public CatalogueId() {
+        this.value = counter++;
     }
 
     public Integer getValue() {

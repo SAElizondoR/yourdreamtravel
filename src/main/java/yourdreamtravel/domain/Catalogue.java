@@ -5,10 +5,15 @@ import java.util.List;
 
 public class Catalogue {
     private CatalogueId id;
-    private ArrayList<Lieu> destinations;
-    private ArrayList<Vol> vols;
-    private ArrayList<Hotel> hotels;
-    private ArrayList<LoueurVoiture> loueurs;
+    private List<Lieu> destinations;
+    private List<Vol> vols;
+    private List<Hotel> hotels;
+    private List<LoueurVoiture> loueurs;
+
+    public Catalogue(List<Lieu> destinations) {
+        id = new CatalogueId();
+        this.destinations = destinations;
+    }
 
     public List<String> getDestinationNames() {
         List<String> names = new ArrayList<>();

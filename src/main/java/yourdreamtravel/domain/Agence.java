@@ -9,11 +9,11 @@ public class Agence {
     private final ArrayList<Reservation> reservations;
     private final Catalogue catalogue;
 
-    public Agence() {
+    public Agence(Catalogue catalogue) {
         id = new AgenceId();
         clients = new ArrayList<>();
         reservations = new ArrayList<>();
-        catalogue = new Catalogue();
+        this.catalogue = catalogue;
     }
 
     public void addClient(String nom) {

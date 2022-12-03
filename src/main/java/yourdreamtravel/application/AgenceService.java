@@ -4,13 +4,16 @@ import java.util.List;
 
 import yourdreamtravel.domain.Agence;
 import yourdreamtravel.domain.Client;
+import yourdreamtravel.infra.AgenceRepositoryInMemory;
 
 public class AgenceService {
     private final Agence agence;
     private Client clientActif;
+    private AgenceRepositoryInMemory repository;
 
     public AgenceService() {
-        agence = new Agence();
+        repository = new AgenceRepositoryInMemory();
+        agence = repository.initialiserAgence();
     }
 
     public void addClient(String nom) {
