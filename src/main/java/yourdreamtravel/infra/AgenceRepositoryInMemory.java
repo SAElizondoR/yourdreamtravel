@@ -2,6 +2,8 @@ package yourdreamtravel.infra;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +12,8 @@ import yourdreamtravel.domain.AgenceRepository;
 import yourdreamtravel.domain.Catalogue;
 import yourdreamtravel.domain.Lieu;
 import yourdreamtravel.domain.LieuId;
+import yourdreamtravel.domain.Vol;
+import yourdreamtravel.domain.VolId;
 
 public class AgenceRepositoryInMemory implements AgenceRepository {
     Set<Agence> memory;
@@ -34,4 +38,36 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
         Catalogue catalogue = new Catalogue(destinations);
         return new Agence(catalogue);
     }
+
+    public ArrayList<Vol> TousLesVols(Agence agence){
+        Calendar cal = Calendar.getInstance();
+        ArrayList<Vol> vols = new ArrayList<>();
+        ArrayList<Calendar> lesDates = new ArrayList<>();
+        cal.set(2022, 12, 22, 12, 0);
+        lesDates.add(cal);
+        cal.set(2022, 12, 22, 13, 58);
+        lesDates.add(cal);
+        cal.set(2023, 1, 2, 15, 0);
+        lesDates.add(cal);
+        cal.set(2023, 1, 3, 8, 22);
+        lesDates.add(cal);
+        ArrayList<Lieu> dest;
+        dest = (ArrayList<Lieu>) agence.getCatalogue().getDestinations();
+        vols.add(new Vol(new VolId(), dest.get(0), dest.get(1), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(0), dest.get(2), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(0), dest.get(3), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(0), dest.get(4), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(1), dest.get(0), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(1), dest.get(3), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(1), dest.get(4), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(2), dest.get(0), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(2), dest.get(3), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(3), dest.get(1), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(3), dest.get(2), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(4), dest.get(0), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(4), dest.get(1), lesDates));
+        vols.add(new Vol(new VolId(), dest.get(4), dest.get(2), lesDates));
+        return vols;
+    }
+
 }
