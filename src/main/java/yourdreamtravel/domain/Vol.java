@@ -11,10 +11,18 @@ public class Vol {
 
     public Vol(VolId id, Lieu depart, Lieu destination, Date date,
         Integer classe) {
-            this.id = id;
-            this.depart = depart;
-            this.destination = destination;
-            this.date = date;
-            this.classe = classe;
-        }
+        this.id = id;
+        this.depart = depart;
+        this.destination = destination;
+        this.date = date;
+        this.classe = classe;
+    }
+
+    public VolId getId() {
+        return id;
+    }
+
+    public Lieu getDepart() {
+        return depart;
+    }
 }

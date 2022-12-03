@@ -1,8 +1,21 @@
 package yourdreamtravel.domain;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class Reservation extends ReservationService {
+public class Reservation {
     private ReservationId id;
-    private ArrayList<Vol> vols;
+    private List<Vol> vols;
+
+    public Reservation(ReservationId id, List<Vol> vols) {
+        this.id = id;
+        this.vols = vols;
+    }
+
+    public ReservationId getId() {
+        return id;
+    }
+
+    public List<Vol> getVols() {
+        return vols;
+    }
 }

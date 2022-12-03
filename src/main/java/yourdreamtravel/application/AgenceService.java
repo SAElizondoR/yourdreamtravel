@@ -31,4 +31,14 @@ public class AgenceService {
     public List<String> getDestinationNames() {
         return agence.getCatalogue().getDestinationNames();
     }
+
+    public List<String> getDestinationNamesExcept(int destinationIndex) {
+        List<String> destinationNames = getDestinationNames();
+        destinationNames.remove(destinationIndex);
+        return destinationNames;
+    }
+
+    public Client getClientActif() {
+        return clientActif;
+    }
 }

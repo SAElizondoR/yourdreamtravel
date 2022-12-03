@@ -24,10 +24,26 @@ public class Catalogue {
     }
 
     public void addDestination(String nom) {
-        // destinations.add(new Lieu(nom));
+        destinations.add(new Lieu(new LieuId(), nom));
+    }
+
+    public CatalogueId getId() {
+        return id;
     }
 
     public void addVol() {
         /* à implementer */
+    }
+
+    public List<Vol> getVols() {
+        return vols;
+    }
+
+    public List<Hotel> getHotels() {
+        return hotels;
+    }
+
+    public List<LoueurVoiture> getLoueurs() {
+        return loueurs;
     }
 }

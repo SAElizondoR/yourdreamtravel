@@ -32,7 +32,15 @@ public class Agence {
         return names;
     }
 
+    public AgenceId getId() {
+        return id;
+    }
+
     public Catalogue getCatalogue() {
         return catalogue;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 }

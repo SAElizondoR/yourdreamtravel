@@ -20,10 +20,9 @@ public class TextUI {
     public void run() {
         int choix = 0;
         do {
-            System.out.println("\nSÉLECTIONNER UNE OPTION");
+            System.console().printf("\nSÉLECTIONNER UNE OPTION\n");
             choix = choisirOption(Arrays.asList("Créer client", "Selectionner un client",
                 "Quitter le programme"));
-            System.out.println();
             switch (choix) {
                 case 1:
                     creerClient();
@@ -33,50 +32,51 @@ public class TextUI {
                     break;
                 default:
             }
-            System.out.println();
         } while (choix != 3);
     }
 
     private void creerClient() {
-        System.out.println("CRÉER CLIENT");
-        System.out.print("Entrez le nom: ");
+        System.console().printf("CRÉER CLIENT\n");
+        System.console().printf("Entrez le nom: ");
         String nom = lireChaine();
         agenceService.addClient(nom);
-        System.out.println("Client ajouté!");
+        System.console().printf("Client ajouté!\n");
     }
 
     private void selectionnerClient() {
-        System.out.println("SÉLECTIONNER CLIENT");
+        System.console().printf("SÉLECTIONNER CLIENT\n");
         int clientIndex = choisirOption(agenceService.getClientNames());
         agenceService.setClientActifByIndex(clientIndex - 1);
-        System.out.println();
         clientMenu();
     }
 
     private void clientMenu() {
-        System.out.println("MENU DU CLIENT");
+        System.console().printf("MENU DU CLIENT\n");
         int choix = choisirOption(Arrays.asList("Faire une réservation de voyage",
             "Quitter le menu du client"));
-        System.out.println();
         if (choix == 1)
             faireReservationVoyage();
     }
 
     private void faireReservationVoyage() {
-        System.out.println("FAIRE UNE RÉSERVATION DE VOYAGE");
-        System.out.println("\nSélectionnez une destination pour voyager:");
-        choisirOption(agenceService.getDestinationNames());
+        System.console().printf("FAIRE UNE RÉSERVATION DE VOYAGE\n");
+        System.console().printf("Sélectionnez le lieu de départ:\n");
+        int departIndex = choisirOption(agenceService.getDestinationNames());
+        System.console().printf("Sélectionnez la destination:\n");
+        int destinationIndex = choisirOption(agenceService.getDestinationNamesExcept(departIndex - 1));
     }
 
     private int choisirOption(List<String> options) {
         int compteur = 1;
         for (String option: options)
-            System.out.printf("%d) %s%n", compteur++, option);
-        System.out.print("Votre choix: ");
+            System.console().printf("%d) %s\n", compteur++, option);
+        System.console().printf("Votre choix: ");
         try {
-            return Integer.parseInt(lireChaine());
+            int choix = Integer.parseInt(lireChaine());
+            System.console().printf("\n");
+            return choix;
         } catch (NumberFormatException e) {
-            System.err.println("Entrez un numéro.\n");
+            System.console().printf("Entrez un numéro.\n");
         }
         return 0;
     }
@@ -85,7 +85,7 @@ public class TextUI {
         try {
             return buff.readLine();
         } catch (IOException e) {
-            System.err.println("Impossible de lire l'entré.\n");
+            System.console().printf("Impossible de lire l'entré.\n");
         }
         return null;
     }

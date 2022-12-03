@@ -9,6 +9,10 @@ public class Lieu {
         this.nom = nom;
     }
 
+    public LieuId getId() {
+        return id;
+    }
+
     public String getNom() {
         return nom;
     }
