@@ -1,18 +1,17 @@
 package yourdreamtravel.domain;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class Hotel {
     private HotelId id;
     private String nom;
-    private BigDecimal prix;
+    private Lieu lieu;
     private List<Chambre> chambres;
 
-    public Hotel(HotelId id, String nom, BigDecimal prix, List<Chambre> chambres) {
-        this.id = id;
+    public Hotel(String nom, Lieu lieu, List<Chambre> chambres) {
+        id = new HotelId();
         this.nom = nom;
-        this.prix = prix;
+        this.lieu = lieu;
         this.chambres = chambres;
     }
 
@@ -24,8 +23,8 @@ public class Hotel {
         return nom;
     }
 
-    public BigDecimal getPrix() {
-        return prix;
+    public Lieu getLieu() {
+        return lieu;
     }
 
     public List<Chambre> getChambres() {

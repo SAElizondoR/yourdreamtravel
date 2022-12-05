@@ -1,12 +1,11 @@
 package yourdreamtravel.domain;
 
-import java.math.BigDecimal;
 
 public class Chambre {
     private final Integer taille;
-    private final BigDecimal prix;
+    private final Integer prix;
 
-    public Chambre(Integer taille, BigDecimal prix) {
+    public Chambre(Integer taille, Integer prix) {
         this.taille = taille;
         this.prix = prix;
     }
@@ -15,7 +14,7 @@ public class Chambre {
         return taille;
     }
 
-    public BigDecimal getPrix() {
+    public Integer getPrix() {
         return prix;
     }
 
