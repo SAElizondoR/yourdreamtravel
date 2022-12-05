@@ -1,14 +1,11 @@
 package yourdreamtravel.domain;
 
 public class VolId {
+    private static Integer counter = 0;
     private final Integer value;
 
-    public VolId(Integer value) {
-        this.value = value;
-    }
-
     public VolId() {
-        value = 0;
+        this.value = counter++;
     }
 
     public Integer getValue() {

@@ -1,6 +1,7 @@
 package yourdreamtravel.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Catalogue {
@@ -10,13 +11,41 @@ public class Catalogue {
     private final List<Hotel> hotels;
     private final List<LoueurVoiture> loueurs;
 
-    public Catalogue(List<Lieu> destinations, List<Vol> vols,
+    public Catalogue(CatalogueId id, List<Lieu> destinations, List<Vol> vols,
         List<Hotel> hotels, List<LoueurVoiture> loueurs) {
-        id = new CatalogueId();
+        this.id = id;
         this.destinations = destinations;
         this.vols = vols;
         this.hotels = hotels;
         this.loueurs =  loueurs;
+    }
+
+    public List<Vol> calculerItineraire(Lieu depart, Lieu destination) {
+        List<Vol> volsPossibles = new ArrayList<>();
+        for (Vol vol: vols)
+            if (vol.getDepart().equals(depart)) {
+                Lieu destPossible = vol.getDestination();
+                if (destPossible.equals(destination)) 
+                    return Arrays.asList(vol);
+                volsPossibles.add(vol);
+            }
+                
+        for (Vol volPossible: volsPossibles) {
+            Lieu destinationPossible = volPossible.getDestination();
+            for (Vol vol: vols)
+                if (vol.getDepart().equals(destinationPossible) &&
+                    vol.getDestination().equals(destination))
+                    return Arrays.asList(volPossible, vol);
+        }
+        return new ArrayList<>();
+    }
+
+    public CatalogueId getId() {
+        return id;
+    }
+
+    public List<Lieu> getDestinations() {
+        return destinations;
     }
 
     public List<String> getDestinationNames() {
@@ -27,16 +56,11 @@ public class Catalogue {
         return names;
     }
 
-    public void addDestination(String nom) {
-        destinations.add(new Lieu(nom));
-    }
-
-    public CatalogueId getId() {
-        return id;
-    }
-
-    public void addVol() {
-        /* à implementer */
+    public Lieu getDestinationByName(String name) {
+        for (Lieu lieu: destinations)
+            if (lieu.getNom().equals(name))
+                return lieu;
+        return null;
     }
 
     public List<Vol> getVols() {
@@ -49,9 +73,5 @@ public class Catalogue {
 
     public List<LoueurVoiture> getLoueurs() {
         return loueurs;
-    }
-
-    public List<Lieu> getDestinations() {
-        return new ArrayList<>();
     }
 }

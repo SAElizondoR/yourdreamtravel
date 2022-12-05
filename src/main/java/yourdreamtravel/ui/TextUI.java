@@ -61,9 +61,15 @@ public class TextUI {
     private void faireReservationVoyage() {
         System.console().printf("FAIRE UNE RÉSERVATION DE VOYAGE\n");
         System.console().printf("Sélectionnez le lieu de départ:\n");
-        int departIndex = choisirOption(agenceService.getDestinationNames());
+        List<String> destinationNames = agenceService.getDestinationNames();
+        int index = choisirOption(destinationNames);
+        String departName = destinationNames.get(index - 1);
+        destinationNames.remove(index - 1);
         System.console().printf("Sélectionnez la destination:\n");
-        int destinationIndex = choisirOption(agenceService.getDestinationNamesExcept(departIndex - 1));
+        index = choisirOption(destinationNames);
+        String destinationName = destinationNames.get(index - 1);
+        System.console().printf("Itinéraire proposé: %s\n", String.join(" - ",
+            agenceService.proposerItineraire(departName, destinationName)));
     }
 
     private int choisirOption(List<String> options) {

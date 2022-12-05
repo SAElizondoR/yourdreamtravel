@@ -1,31 +1,19 @@
 package yourdreamtravel.domain;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class Vol {
     private final VolId id;
     private final Lieu depart;
     private final Lieu destination;
-    private final Date date;
-    private final Integer classe;
+    private final List<Calendar> dates;
 
-    public Vol(VolId id, Lieu depart, Lieu destination, Date date,
-        Integer classe) {
-        this.id = id;
+    public Vol(Lieu depart, Lieu destination, List<Calendar> dates) {
+        id = new VolId();
         this.depart = depart;
         this.destination = destination;
-        this.date = date;
-        this.classe = classe;
-    }
-
-    public Vol(VolId volId, Lieu lieu, Lieu lieu2, List<Calendar> lesDates) {
-        this.id = volId;
-        this.depart = lieu;
-        this.destination = lieu2;
-        this.date = new Date();
-        this.classe = lesDates.size();
+        this.dates = dates;
     }
 
     public VolId getId() {
@@ -40,11 +28,19 @@ public class Vol {
         return destination;
     }
 
-    public Date getDate() {
-        return date;
+    public List<Calendar> getDates() {
+        return dates;
     }
 
-    public Integer getClasse() {
-        return classe;
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Vol))
+            return false;
+        Vol other = (Vol)obj;
+        return id.equals(other.id) && depart.equals(other.depart) &&
+            destination.equals(other.destination) && dates.equals(other.dates);
+    }
+
+    public int hashCode() {
+        return id.hashCode();
     }
 }
