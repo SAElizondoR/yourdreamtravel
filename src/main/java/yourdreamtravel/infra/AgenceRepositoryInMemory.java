@@ -3,8 +3,8 @@ package yourdreamtravel.infra;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import yourdreamtravel.domain.Agence;
@@ -39,7 +39,7 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
         return new Agence(catalogue);
     }
 
-    public ArrayList<Vol> TousLesVols(Agence agence){
+    public List<Vol> tousLesVols(Agence agence){
         Calendar cal = Calendar.getInstance();
         ArrayList<Vol> vols = new ArrayList<>();
         ArrayList<Calendar> lesDates = new ArrayList<>();
@@ -52,7 +52,7 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
         cal.set(2023, 1, 3, 8, 22);
         lesDates.add(cal);
         ArrayList<Lieu> dest;
-        dest = (ArrayList<Lieu>) agence.getCatalogue().getDestinations();
+        dest = agence.getCatalogue().getDestinations();
         vols.add(new Vol(new VolId(), dest.get(0), dest.get(1), lesDates));
         vols.add(new Vol(new VolId(), dest.get(0), dest.get(2), lesDates));
         vols.add(new Vol(new VolId(), dest.get(0), dest.get(3), lesDates));

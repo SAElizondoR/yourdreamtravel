@@ -46,4 +46,8 @@ public class Catalogue {
     public List<LoueurVoiture> getLoueurs() {
         return loueurs;
     }
+
+    public ArrayList<Lieu> getDestinations() {
+        return null;
+    }
 }

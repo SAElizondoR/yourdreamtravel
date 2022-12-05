@@ -7,6 +7,10 @@ public class VolId {
         this.value = value;
     }
 
+    public VolId() {
+        value = 0;
+    }
+
     public Integer getValue() {
         return value;
     }
