@@ -11,7 +11,6 @@ import yourdreamtravel.domain.Agence;
 import yourdreamtravel.domain.AgenceRepository;
 import yourdreamtravel.domain.Catalogue;
 import yourdreamtravel.domain.Lieu;
-import yourdreamtravel.domain.LieuId;
 import yourdreamtravel.domain.Vol;
 import yourdreamtravel.domain.VolId;
 
@@ -29,13 +28,14 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
 
     public Agence initialiserAgence() {
         ArrayList<Lieu> destinations = new ArrayList<>();
-        destinations.add(new Lieu(new LieuId(), "Paris"));
-        destinations.add(new Lieu(new LieuId(), "Bordeaux"));
-        destinations.add(new Lieu(new LieuId(), "Camberra"));
-        destinations.add(new Lieu(new LieuId(), "Tokio"));
-        destinations.add(new Lieu(new LieuId(), "Delhi"));
+        destinations.add(new Lieu("Paris"));
+        destinations.add(new Lieu("Bordeaux"));
+        destinations.add(new Lieu("Camberra"));
+        destinations.add(new Lieu("Tokio"));
+        destinations.add(new Lieu("Delhi"));
         
-        Catalogue catalogue = new Catalogue(destinations);
+        Catalogue catalogue = new Catalogue(destinations, new ArrayList<>(),
+            new ArrayList<>(), new ArrayList<>());
         return new Agence(catalogue);
     }
 
@@ -52,7 +52,7 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
         cal.set(2023, 1, 3, 8, 22);
         lesDates.add(cal);
         ArrayList<Lieu> dest;
-        dest = agence.getCatalogue().getDestinations();
+        dest = (ArrayList<Lieu>) agence.getCatalogue().getDestinations();
         vols.add(new Vol(new VolId(), dest.get(0), dest.get(1), lesDates));
         vols.add(new Vol(new VolId(), dest.get(0), dest.get(2), lesDates));
         vols.add(new Vol(new VolId(), dest.get(0), dest.get(3), lesDates));

@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Catalogue {
-    private CatalogueId id;
-    private List<Lieu> destinations;
-    private List<Vol> vols;
-    private List<Hotel> hotels;
-    private List<LoueurVoiture> loueurs;
+    private final CatalogueId id;
+    private final List<Lieu> destinations;
+    private final List<Vol> vols;
+    private final List<Hotel> hotels;
+    private final List<LoueurVoiture> loueurs;
 
-    public Catalogue(List<Lieu> destinations) {
+    public Catalogue(List<Lieu> destinations, List<Vol> vols,
+        List<Hotel> hotels, List<LoueurVoiture> loueurs) {
         id = new CatalogueId();
         this.destinations = destinations;
+        this.vols = vols;
+        this.hotels = hotels;
+        this.loueurs =  loueurs;
     }
 
     public List<String> getDestinationNames() {
@@ -24,7 +28,7 @@ public class Catalogue {
     }
 
     public void addDestination(String nom) {
-        destinations.add(new Lieu(new LieuId(), nom));
+        destinations.add(new Lieu(nom));
     }
 
     public CatalogueId getId() {
@@ -47,7 +51,7 @@ public class Catalogue {
         return loueurs;
     }
 
-    public ArrayList<Lieu> getDestinations() {
-        return null;
+    public List<Lieu> getDestinations() {
+        return new ArrayList<>();
     }
 }

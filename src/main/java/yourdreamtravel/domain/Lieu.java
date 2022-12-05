@@ -1,11 +1,11 @@
 package yourdreamtravel.domain;
 
 public class Lieu {
-    private LieuId id;
-    private String nom;
+    private final LieuId id;
+    private final String nom;
 
-    public Lieu(LieuId id, String nom) {
-        this.id = id;
+    public Lieu(String nom) {
+        id = new LieuId();
         this.nom = nom;
     }
 
@@ -15,5 +15,16 @@ public class Lieu {
 
     public String getNom() {
         return nom;
+    }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Lieu))
+            return false;
+        Lieu other = (Lieu)obj;
+        return id.equals(other.id) && nom.equals(other.nom);
+    }
+
+    public int hashCode() {
+        return id.hashCode();
     }
 }
