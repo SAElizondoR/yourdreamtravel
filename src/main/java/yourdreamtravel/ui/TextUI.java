@@ -3,10 +3,17 @@ package yourdreamtravel.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import yourdreamtravel.application.AgenceService;
+import yourdreamtravel.domain.Client;
+import yourdreamtravel.domain.Hotel;
+import yourdreamtravel.domain.Lieu;
+import yourdreamtravel.domain.LoueurVoiture;
 
 public class TextUI {
     private final AgenceService agenceService;
@@ -44,9 +51,11 @@ public class TextUI {
     }
 
     private void selectionnerClient() {
+        Map<String, Client> clients = agenceService.getClientsMap();
         System.console().printf("SÉLECTIONNER CLIENT\n");
-        int clientIndex = choisirOption(agenceService.getClientNames());
-        agenceService.setClientActifByIndex(clientIndex - 1);
+        List<String> clientNames = new ArrayList<>(clients.keySet());
+        int index = choisirOption(clientNames);
+        agenceService.setClientActif(clients.get(clientNames.get(index - 1)));
         clientMenu();
     }
 
@@ -61,46 +70,62 @@ public class TextUI {
     private void faireReservationVoyage() {
         System.console().printf("FAIRE UNE RÉSERVATION DE VOYAGE\n");
 
+        Map<String, Lieu> destinations = agenceService.getDestinationMap();
         System.console().printf("Sélectionnez le lieu de départ:\n");
-        List<String> destinationNames = agenceService.getDestinationNames();
+        List<String> destinationNames = new ArrayList<>(destinations.keySet());
         int index = choisirOption(destinationNames);
-        String departName = destinationNames.get(index - 1);
+        Lieu depart = destinations.get(destinationNames.get(index - 1));
         destinationNames.remove(index - 1);
 
         System.console().printf("Sélectionnez la destination:\n");
         index = choisirOption(destinationNames);
-        String destinationName = destinationNames.get(index - 1);
-        System.console().printf("Itinéraire proposé: %s\n", String.join(" - ",
-            agenceService.proposerItineraire(departName, destinationName)));
+        Lieu destination = destinations.get(destinationNames.get(index - 1));
+        System.console().printf("Itinéraire proposé:\n%s\n", String.join("\n",
+            agenceService.proposerItineraire(depart, destination)));
 
-        int choix = choisirOption(Arrays.asList("Accepter", "Réfuser"));
-        if (choix != 2)
+        index = choisirOption(Arrays.asList("Accepter", "Réfuser"));
+        if (index != 1)
             return;
         
+        Map<String, Calendar> dates = agenceService.getDatesPossibles();
         System.console().printf("Sélectionnez la date de départ:\n");
-        int dateIndex = choisirOption(agenceService.proposerDates());
+        List<String> dateStrings = new ArrayList<>(dates.keySet());
+        index = choisirOption(dateStrings);
+        agenceService.setDateReservation(dates.get(dateStrings.get(index)));
 
         System.console().printf("Sélecionnez le type de service:\n");
-        choix = choisirOption(Arrays.asList("Service simple", "Service haute gamme", "Sans service"));
-        switch (choix) {
+        index = choisirOption(Arrays.asList("Service simple", "Service haute gamme", "Sans service"));
+        switch (index) {
             case 1:
                 break;
             case 2:
                 break;
+            default:
         }
 
     }
 
     private void menuServiceSimple() {
-
+        faireReservationHotel();
+        locationDeVoiture();
     }
 
     private void menuServiceHauteGamme() {
-
+        /* a implémenter */
     }
 
     private void faireReservationHotel() {
+        Map<String, Hotel> hotels = agenceService.getHotelMap();
         System.console().printf("FAIRE UNE RÉSERVATION D'HOTEL\n");
+        List<String> hotelNames = new ArrayList<>(hotels.keySet());
+        int index = choisirOption(hotelNames);
+    }
+
+    private void locationDeVoiture() {
+        Map<String, LoueurVoiture> loueurs = agenceService.getLoueurMap();
+        System.console().printf("LOCATION DE VOITURE\n");
+        List<String> loueurNames = new ArrayList<>(loueurs.keySet());
+        int index = choisirOption(loueurNames);
     }
 
     private int choisirOption(List<String> options) {

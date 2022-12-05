@@ -1,11 +1,11 @@
 package yourdreamtravel.domain;
 
-public class LoueurVoitureId {
+public class ServiceId {
     private static Integer counter = 0;
     private final Integer value;
 
-    public LoueurVoitureId() {
-        value = counter++;
+    public ServiceId() {
+        this.value = counter++;
     }
 
     public Integer getValue() {
@@ -13,9 +13,9 @@ public class LoueurVoitureId {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof LoueurVoitureId))
+        if (!(obj instanceof ServiceId))
             return false;
-        LoueurVoitureId other = (LoueurVoitureId)obj;
+        ServiceId other = (ServiceId)obj;
         return value.equals(other.value);
     }
 

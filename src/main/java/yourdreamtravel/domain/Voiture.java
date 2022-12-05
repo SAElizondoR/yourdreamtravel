@@ -1,13 +1,11 @@
 package yourdreamtravel.domain;
 
-import java.math.BigDecimal;
-
 public class Voiture {
     private final String marque;
     private final String model;
-    private final BigDecimal prix;
+    private final Integer prix;
 
-    public Voiture(String marque, String model, BigDecimal prix) {
+    public Voiture(String marque, String model, Integer prix) {
         this.marque = marque;
         this.model = model;
         this.prix = prix;
@@ -21,7 +19,7 @@ public class Voiture {
         return model;
     }
 
-    public BigDecimal getPrix() {
+    public Integer getPrix() {
         return prix;
     }
 

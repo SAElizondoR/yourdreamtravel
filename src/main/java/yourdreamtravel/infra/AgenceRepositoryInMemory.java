@@ -16,6 +16,10 @@ import yourdreamtravel.domain.CatalogueId;
 import yourdreamtravel.domain.Chambre;
 import yourdreamtravel.domain.Hotel;
 import yourdreamtravel.domain.Lieu;
+import yourdreamtravel.domain.LoueurVoiture;
+import yourdreamtravel.domain.Voiture;
+import yourdreamtravel.domain.LoueurVoiture;
+import yourdreamtravel.domain.Voiture;
 import yourdreamtravel.domain.Vol;
 
 public class AgenceRepositoryInMemory implements AgenceRepository {
@@ -34,9 +38,10 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
         List<Lieu> destinations = retrieveDestinationData();
         List<Vol> vols = retrieveVolData(destinations);
         List<Hotel> hotels = retrieveHotelData(destinations);
+        List<LoueurVoiture> loueurs = retrieveLoueurData(destinations);
         
         Catalogue catalogue = new Catalogue(new CatalogueId(), destinations,
-            vols, hotels, new ArrayList<>());
+            vols, hotels, loueurs);
         return new Agence(catalogue);
     }
 
@@ -97,6 +102,24 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
             new Hotel("Manga", lieux.get(3), lesChambres),
             new Hotel("Suryaa", lieux.get(4), lesChambres),
             new Hotel("Surajkund", lieux.get(4), lesChambres)
+        );
+    }
+    
+    private List<LoueurVoiture> retrieveLoueurData(List<Lieu> lieux) {
+        List<Voiture> lesVoitures = Arrays.asList(
+            new Voiture("Mitsubishi", "Outlander", 50),
+            new Voiture("Hyundai", "Grand I10", 70),
+            new Voiture("Ford", "Durango", 100),
+            new Voiture("Chevrolet", "4x4", 120)
+        );
+        return Arrays.asList(
+            new LoueurVoiture(lieux.get(0), "3 Bvd. De Gaulle", lesVoitures),
+            new LoueurVoiture(lieux.get(0), "5 Italie", lesVoitures),
+            new LoueurVoiture(lieux.get(1), "10 Libération", lesVoitures),
+            new LoueurVoiture(lieux.get(1), "11 Marne", lesVoitures),
+            new LoueurVoiture(lieux.get(2), "11 Washington", lesVoitures),
+            new LoueurVoiture(lieux.get(3), "80 Kuzumi", lesVoitures),
+            new LoueurVoiture(lieux.get(4), "1 Bhagabagdita", lesVoitures)
         );
     }
 }
