@@ -91,7 +91,7 @@ public class TextUI {
         System.out.printf("Sélectionnez la date de départ:\n");
         List<String> dateStrings = new ArrayList<>(dates.keySet());
         index = choisirOption(dateStrings);
-        agenceService.setDateReservation(dates.get(dateStrings.get(index)));
+        agenceService.setDateReservation(dates.get(dateStrings.get(index - 1)));
 
         System.out.printf("Sélecionnez le type de service:\n");
         index = choisirOption(Arrays.asList("Service simple", "Service haute gamme", "Sans service"));
