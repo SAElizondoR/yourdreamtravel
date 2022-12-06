@@ -59,9 +59,15 @@ public class TextUI {
 
     private void selectionnerClient() {
         Map<String, Client> clients = agenceService.getClientsMap();
-        System.out.printf("SÉLECTIONNER CLIENT\n");
+        if (clients.size() == 0) {
+            System.out.printf("Il n'y a pas de clients!\n");
+            return;
+        }
         List<String> clientNames = new ArrayList<>(clients.keySet());
-        int index = choisirOption(clientNames);
+        int index = 1;
+        System.out.printf("SÉLECTIONNER CLIENT\n");
+        index = choisirOption(clientNames);
+        
         agenceService.setClientActif(clients.get(clientNames.get(index - 1)));
         clientMenu();
     }
@@ -125,6 +131,10 @@ public class TextUI {
             default:
         }
         agenceService.addReservationActif();
+
+        System.out.printf("Total à payer: %d\n", agenceService.computerTotal());
+        choisirOption(Arrays.asList("Ok"));
+
         System.out.printf("Reservation créé !\n");
     }
 
@@ -170,13 +180,11 @@ public class TextUI {
         Calendar dateEntree = lireDate();
         System.out.printf("\nDate de sortie (jj/mm/aaaa): ");
         Calendar dateSortie = lireDate();
-        System.out.printf("Voulez-vous des prestations luxueuses ?");
+        System.out.printf("Voulez-vous des prestations luxueuses ?\n");
         index = choisirOption(Arrays.asList("Oui", "Non"));
         boolean prestationsLuxe = index == 1;
         agenceService.ajouterServiceHotel(dateEntree, dateSortie,
             hotel, chambre, prestationsLuxe);
-        System.out.printf("Total à payer: %d\n", agenceService.computerTotal());
-        choisirOption(Arrays.asList("Ok"));
     }
 
     private void locationDeVoiture() {
@@ -203,15 +211,23 @@ public class TextUI {
         int compteur = 1;
         for (String option: options)
             System.out.printf("%d) %s\n", compteur++, option);
-        System.out.printf("Votre choix: ");
-        try {
-            int choix = Integer.parseInt(lireChaine());
-            System.out.printf("\n");
-            return choix;
-        } catch (NumberFormatException e) {
-            System.out.printf("Entrez un numéro.\n");
-        }
-        return 0;
+        int choix = 0;
+        do {
+            System.out.printf("Votre choix: ");
+            try {
+                choix = Integer.parseInt(lireChaine());
+                System.out.printf("\n");
+            } catch (NumberFormatException e) {
+                System.out.printf("Entrez un numéro. ");
+                choix = 0;
+            }
+            if (choix < 1 || choix > options.size())
+                System.out.printf("Option invalide.\n");
+            else
+                break;
+        } while (true);
+        
+        return choix;
     }
 
     private Calendar lireDate() {
