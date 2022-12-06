@@ -33,12 +33,13 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
 
     public Agence retrieveAgenceData() {
         List<Lieu> destinations = retrieveDestinationData();
+        List<Lieu> hotelDestinations = retrieveHotelDestinationData();
         List<Vol> vols = retrieveVolData(destinations);
-        List<Hotel> hotels = retrieveHotelData(destinations);
-        List<LoueurVoiture> loueurs = retrieveLoueurData(destinations);
+        List<Hotel> hotels = retrieveHotelData(hotelDestinations);
+        List<LoueurVoiture> loueurs = retrieveLoueurData(hotelDestinations);
         
         Catalogue catalogue = new Catalogue(new CatalogueId(), destinations,
-            vols, hotels, loueurs);
+            vols, hotels, loueurs, hotelDestinations);
         return new Agence(catalogue);
     }
 
@@ -49,6 +50,17 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
             new Lieu("Camberra"),
             new Lieu("Tokio"),
             new Lieu("Delhi"));
+    }
+
+    private List<Lieu> retrieveHotelDestinationData() {
+        return Arrays.asList(
+            new Lieu("Paris"),
+            new Lieu("Bordeaux"),
+            new Lieu("Camberra"),
+            new Lieu("Tokio"),
+            new Lieu("Delhi"),
+            new Lieu("Sydney"),
+            new Lieu("Calcuta"));
     }
 
     private List<Vol> retrieveVolData(List<Lieu> destinations) {
@@ -98,7 +110,9 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
             new Hotel("Keihan", lieux.get(3), lesChambres),
             new Hotel("Manga", lieux.get(3), lesChambres),
             new Hotel("Suryaa", lieux.get(4), lesChambres),
-            new Hotel("Surajkund", lieux.get(4), lesChambres)
+            new Hotel("Surajkund", lieux.get(4), lesChambres),
+            new Hotel("Australia hotel", lieux.get(5), lesChambres),
+            new Hotel("Uttar hotel", lieux.get(6), lesChambres)
         );
     }
     
@@ -116,7 +130,9 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
             new LoueurVoiture(lieux.get(1), "11 Marne", lesVoitures),
             new LoueurVoiture(lieux.get(2), "11 Washington", lesVoitures),
             new LoueurVoiture(lieux.get(3), "80 Kuzumi", lesVoitures),
-            new LoueurVoiture(lieux.get(4), "1 Bhagabagdita", lesVoitures)
+            new LoueurVoiture(lieux.get(4), "1 Bhagabagdita", lesVoitures),
+            new LoueurVoiture(lieux.get(5), "3 Tomson", lesVoitures),
+            new LoueurVoiture(lieux.get(6), "4 Pradesh", lesVoitures)
         );
     }
 }

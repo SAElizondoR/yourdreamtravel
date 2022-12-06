@@ -6,12 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import yourdreamtravel.domain.Agence;
+import yourdreamtravel.domain.Chambre;
 import yourdreamtravel.domain.Client;
 import yourdreamtravel.domain.Hotel;
 import yourdreamtravel.domain.Lieu;
 import yourdreamtravel.domain.LoueurVoiture;
 import yourdreamtravel.domain.Reservation;
 import yourdreamtravel.domain.Vol;
+import yourdreamtravel.domain.Service;
+import yourdreamtravel.domain.ServiceHotel;
+import yourdreamtravel.domain.ServiceLoueur;
+import yourdreamtravel.domain.Voiture;
 import yourdreamtravel.infra.AgenceRepositoryInMemory;
 
 public class AgenceService {
@@ -19,6 +24,7 @@ public class AgenceService {
     private AgenceRepositoryInMemory repository;
     private Client clientActif;
     private Reservation reservationActif;
+    private Lieu destinationActif;
 
     public AgenceService() {
         repository = new AgenceRepositoryInMemory();
@@ -41,10 +47,15 @@ public class AgenceService {
         return agence.getCatalogue().getDestinationMap();
     }
 
+    public Map<String, Lieu> getHotelDestinationMap() {
+        return agence.getCatalogue().getHotelDestinationMap();
+    }
+
     public List<String> proposerItineraire(Lieu depart, Lieu destination) {
         Map<String, Vol> itineraireMap = agence.getCatalogue()
             .calculerItineraire(depart, destination);
         reservationActif = new Reservation(clientActif, new ArrayList<>(itineraireMap.values()));
+        destinationActif = destination;
         return new ArrayList<>(itineraireMap.keySet());
     }
 
@@ -58,12 +69,38 @@ public class AgenceService {
 
     public Map<String, Hotel> getHotelMap() {
         return agence.getCatalogue().getHotelMap(
-            reservationActif.getDestination());
+            destinationActif);
     }
 
     public Map<String, LoueurVoiture> getLoueurMap() {
         return agence.getCatalogue().getLoueurMap(
-            reservationActif.getDestination());
+            destinationActif);
+    }
+
+    public Map<String, Chambre> getChambreMap(Hotel hotel) {
+        return hotel.getChambreMap();
+    }
+
+    public void ajouterServiceHotel(Calendar dateEntree, Calendar dateSortie,
+        Hotel hotel, Chambre chambre) {
+        Service serviceHotel = new ServiceHotel(dateEntree,
+            dateSortie, hotel, chambre);
+        reservationActif.addService(serviceHotel);
+    }
+
+    public Map<String, Voiture> getVoitureMap(LoueurVoiture loueur) {
+        return loueur.getVoitureMap();
+    }
+
+    public void ajouterServiceVoiture(Calendar dateDebut, Calendar dateFin,
+    LoueurVoiture loueur, Voiture voiture) {
+        Service loueurVoiture = new ServiceLoueur(dateDebut, dateFin,
+           loueur, voiture);
+           reservationActif.addService(loueurVoiture);
+    }
+
+    public Lieu getDestinationActif() {
+        return destinationActif;
     }
 
     public Client getClientActif() {

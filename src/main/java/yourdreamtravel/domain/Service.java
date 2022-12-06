@@ -1,21 +1,32 @@
 package yourdreamtravel.domain;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public abstract class Service {
     private final ServiceId id;
-    private final Calendar date;
+    private final Calendar dateDebut;
+    private final Calendar dateFin;
 
-    public Service(Calendar date) {
+    protected Service(Calendar dateDebut, Calendar dateFin) {
         id = new ServiceId();
-        this.date = date;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
     }
 
     public ServiceId getId() {
         return id;
     }
 
-    public Calendar getDate() {
-        return date;
+    public Calendar getDateDebut() {
+        return dateDebut;
+    }
+
+    public Calendar getDateFin() {
+        return dateFin;
+    }
+
+    public Long getNombreDeJours() {
+        return TimeUnit.MILLISECONDS.toDays(dateFin.compareTo(dateDebut));
     }
 }

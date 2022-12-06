@@ -1,19 +1,16 @@
 package yourdreamtravel.domain;
 
+import java.util.Calendar;
 
-public class ServiceHotel {
-    private final ServiceHotelId id;
+public class ServiceHotel extends Service {
     private final Hotel hotel;
     private final Chambre chambre;
 
-    public ServiceHotel(Hotel hotel, Chambre chambre) {
-        id = new ServiceHotelId();
+    public ServiceHotel(Calendar dateEntree, Calendar dateSortie,
+        Hotel hotel, Chambre chambre) {
+        super(dateEntree, dateSortie);
         this.hotel = hotel;
         this.chambre = chambre;
-    }
-
-    public ServiceHotelId getId() {
-        return id;
     }
 
     public Hotel getHotel() {

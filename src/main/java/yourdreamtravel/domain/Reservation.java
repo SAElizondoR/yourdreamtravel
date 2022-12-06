@@ -1,6 +1,7 @@
 package yourdreamtravel.domain;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ public class Reservation {
         id = new ReservationId();
         this.client = client;
         this.itineraire = itineraire;
+        services = new ArrayList<>();
     }
 
     public Map<String, Calendar> getDatesPossibles() {
@@ -26,6 +28,18 @@ public class Reservation {
             map.put(formatter.format(datePossible.getTime()), datePossible);
         
         return map;
+    }
+
+    public Lieu getDepart() {
+        return itineraire.get(0).getDepart();
+    }
+
+    public Lieu getDestination() {
+        return itineraire.get(itineraire.size() - 1).getDestination();
+    }
+
+    public void addService(Service service) {
+        services.add(service);
     }
 
     public void setDate(Calendar date) {
@@ -42,15 +56,7 @@ public class Reservation {
 
     public List<Vol> getItineraire() {
         return itineraire;
-    }
-
-    public Lieu getDepart() {
-        return itineraire.get(0).getDepart();
-    }
-
-    public Lieu getDestination() {
-        return itineraire.get(itineraire.size() - 1).getDestination();
-    }
+    }    
 
     public List<Service> getServices() {
         return services;

@@ -1,6 +1,8 @@
 package yourdreamtravel.domain;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Hotel {
     private HotelId id;
@@ -25,6 +27,17 @@ public class Hotel {
 
     public Lieu getLieu() {
         return lieu;
+    }
+
+    public Map<String, Chambre> getChambreMap() {
+        Map<String, Chambre> map = new LinkedHashMap<>();
+        for (Chambre chambre: chambres) {
+            String text = "Taille: " + chambre.getTaille() 
+                + ", Prix: " + chambre.getPrix();
+            map.put(text, chambre);
+        }
+        return map;
+            
     }
 
     public List<Chambre> getChambres() {

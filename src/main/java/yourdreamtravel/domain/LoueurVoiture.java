@@ -1,6 +1,8 @@
 package yourdreamtravel.domain;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LoueurVoiture {
     private LoueurVoitureId id;
@@ -25,6 +27,17 @@ public class LoueurVoiture {
 
     public String getAdresse() {
         return adresse;
+    }
+
+    public Map<String, Voiture> getVoitureMap() {
+        Map<String, Voiture> map = new LinkedHashMap<>();
+        for (Voiture voiture: voitures) {
+            String text = "Marque: " + voiture.getMarque()
+                + ", Modele: " + voiture.getModel()
+                + ", Prix: " + voiture.getPrix();
+            map.put(text, voiture);
+        }
+        return map;
     }
 
     public List<Voiture> getVoitures() {

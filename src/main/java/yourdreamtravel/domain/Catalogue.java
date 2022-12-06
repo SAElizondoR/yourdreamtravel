@@ -8,22 +8,33 @@ import java.util.Map;
 public class Catalogue {
     private final CatalogueId id;
     private final List<Lieu> destinations;
+    private final List<Lieu> hotelDestinations;
     private final List<Vol> vols;
     private final List<Hotel> hotels;
     private final List<LoueurVoiture> loueurs;
 
     public Catalogue(CatalogueId id, List<Lieu> destinations, List<Vol> vols,
-        List<Hotel> hotels, List<LoueurVoiture> loueurs) {
+        List<Hotel> hotels, List<LoueurVoiture> loueurs,
+        List<Lieu> hotelDestinations) {
         this.id = id;
         this.destinations = destinations;
         this.vols = vols;
         this.hotels = hotels;
         this.loueurs =  loueurs;
+        this.hotelDestinations = hotelDestinations;
     }
 
     public Map<String, Lieu> getDestinationMap() {
         Map<String, Lieu> map = new LinkedHashMap<>();
         for (Lieu lieu: destinations)
+            map.put(lieu.getNom(), lieu);
+        
+        return map;
+    }
+
+    public Map<String, Lieu> getHotelDestinationMap() {
+        Map<String, Lieu> map = new LinkedHashMap<>();
+        for (Lieu lieu: hotelDestinations)
             map.put(lieu.getNom(), lieu);
         
         return map;

@@ -1,18 +1,15 @@
 package yourdreamtravel.domain;
 
-public class ServiceLoueur {
-    private ServiceLoueurId id;
+import java.util.Calendar;
+
+public class ServiceLoueur extends Service {
     private LoueurVoiture loueur;
     private Voiture voiture;
 
-    public ServiceLoueur(LoueurVoiture loueur, Voiture voiture) {
-        id = new ServiceLoueurId();
+    public ServiceLoueur(Calendar dateDebut, Calendar dateFin, LoueurVoiture loueur, Voiture voiture) {
+        super(dateDebut, dateFin);
         this.loueur = loueur;
         this.voiture = voiture;
-    }
-
-    public ServiceLoueurId getId() {
-        return id;
     }
 
     public LoueurVoiture getLoueur() {
