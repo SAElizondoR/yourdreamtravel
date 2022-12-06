@@ -97,8 +97,10 @@ public class TextUI {
         index = choisirOption(Arrays.asList("Service simple", "Service haute gamme", "Sans service"));
         switch (index) {
             case 1:
+                menuServiceSimple();
                 break;
             case 2:
+                menuServiceHauteGamme();
                 break;
             default:
         }

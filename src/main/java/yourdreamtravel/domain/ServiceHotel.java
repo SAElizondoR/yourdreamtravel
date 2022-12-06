@@ -12,6 +12,10 @@ public class ServiceHotel {
         this.chambre = chambre;
     }
 
+    public ServiceHotelId getId() {
+        return id;
+    }
+
     public Hotel getHotel() {
         return hotel;
     }

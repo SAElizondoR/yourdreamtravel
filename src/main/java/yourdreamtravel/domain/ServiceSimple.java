@@ -1,5 +1,5 @@
 package yourdreamtravel.domain;
 
-public class ServiceSimple extends Service {
+public class ServiceSimple {
     
 }

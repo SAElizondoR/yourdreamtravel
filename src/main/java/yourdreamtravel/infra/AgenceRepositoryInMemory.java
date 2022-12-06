@@ -1,7 +1,6 @@
 package yourdreamtravel.infra;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -16,8 +15,6 @@ import yourdreamtravel.domain.CatalogueId;
 import yourdreamtravel.domain.Chambre;
 import yourdreamtravel.domain.Hotel;
 import yourdreamtravel.domain.Lieu;
-import yourdreamtravel.domain.LoueurVoiture;
-import yourdreamtravel.domain.Voiture;
 import yourdreamtravel.domain.LoueurVoiture;
 import yourdreamtravel.domain.Voiture;
 import yourdreamtravel.domain.Vol;
