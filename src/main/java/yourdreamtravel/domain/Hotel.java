@@ -39,8 +39,4 @@ public class Hotel {
         return map;
             
     }
-
-    public List<Chambre> getChambres() {
-        return chambres;
-    }
 }

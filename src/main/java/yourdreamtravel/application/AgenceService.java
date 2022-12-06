@@ -22,7 +22,7 @@ import yourdreamtravel.infra.AgenceRepositoryInMemory;
 
 public class AgenceService {
     private final Agence agence;
-    private AgenceRepositoryInMemory repository;
+    private final AgenceRepositoryInMemory repository;
     private Client clientActif;
     private Reservation reservationActif;
     private Lieu destinationActif;
@@ -36,12 +36,12 @@ public class AgenceService {
         agence.addClient(nom);
     }
 
-    public Map<String, Client> getClientsMap() {
-        return agence.getClientsMap();
-    }
-
     public void setClientActif(Client client) {
         clientActif = client;
+    }
+
+    public Map<String, Client> getClientsMap() {
+        return agence.getClientsMap();
     }
 
     public Map<String, Lieu> getDestinationMap() {
@@ -90,15 +90,15 @@ public class AgenceService {
         return hotel.getChambreMap();
     }
 
+    public Map<String, Voiture> getVoitureMap(LoueurVoiture loueur) {
+        return loueur.getVoitureMap();
+    }
+
     public void ajouterServiceHotel(Calendar dateEntree, Calendar dateSortie,
         Hotel hotel, Chambre chambre, boolean prestationsLuxe) {
         Service serviceHotel = new ServiceHotel(dateEntree,
             dateSortie, destinationActif, hotel, chambre, prestationsLuxe);
         reservationActif.addService(serviceHotel);
-    }
-
-    public Map<String, Voiture> getVoitureMap(LoueurVoiture loueur) {
-        return loueur.getVoitureMap();
     }
 
     public void ajouterServiceVoiture(Calendar dateDebut, Calendar dateFin,
@@ -122,11 +122,5 @@ public class AgenceService {
 
     public void addReservationActif() {
         agence.addReservation(reservationActif);
-    }
-
-
-
-    public Client getClientActif() {
-        return clientActif;
     }
 }

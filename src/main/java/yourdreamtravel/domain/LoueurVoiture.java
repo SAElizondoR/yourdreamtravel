@@ -39,8 +39,4 @@ public class LoueurVoiture {
         }
         return map;
     }
-
-    public List<Voiture> getVoitures() {
-        return voitures;
-    }
 }

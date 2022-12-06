@@ -75,10 +75,6 @@ public class Reservation {
         return client;
     }
 
-    public List<Service> getServices() {
-        return services;
-    }
-
     public Calendar getDate() {
         return date;
     }

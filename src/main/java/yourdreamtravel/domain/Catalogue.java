@@ -90,16 +90,4 @@ public class Catalogue {
     public CatalogueId getId() {
         return id;
     }
-
-    public List<Vol> getVols() {
-        return vols;
-    }
-
-    public List<Hotel> getHotels() {
-        return hotels;
-    }
-
-    public List<LoueurVoiture> getLoueurs() {
-        return loueurs;
-    }
 }
