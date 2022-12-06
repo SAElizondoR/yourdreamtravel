@@ -34,8 +34,8 @@ public class TextUI {
         int choix = 0;
         do {
             System.out.printf("\nSÉLECTIONNER UNE OPTION\n");
-            choix = choisirOption(Arrays.asList("Créer client", "Selectionner un client",
-                "Quitter le programme"));
+            choix = choisirOption(Arrays.asList("Créer client",
+                "Selectionner un client", "Quitter le programme"));
             switch (choix) {
                 case 1:
                     creerClient();
@@ -67,8 +67,8 @@ public class TextUI {
 
     private void clientMenu() {
         System.out.printf("MENU DU CLIENT\n");
-        int choix = choisirOption(Arrays.asList("Faire une réservation de voyage",
-            "Quitter le menu du client"));
+        int choix = choisirOption(Arrays.asList(
+            "Faire une réservation de voyage", "Quitter le menu du client"));
         if (choix == 1)
             faireReservationVoyage();
     }
@@ -78,7 +78,8 @@ public class TextUI {
 
         Map<String, Lieu> destinations = agenceService.getDestinationMap();
         System.out.printf("Sélectionnez le lieu de départ:\n");
-        List<String> destinationNames = new ArrayList<>(destinations.keySet());
+        List<String> destinationNames
+            = new ArrayList<>(destinations.keySet());
         int index = choisirOption(destinationNames);
         Lieu depart = destinations.get(destinationNames.get(index - 1));
         destinationNames.remove(index - 1);
@@ -97,10 +98,12 @@ public class TextUI {
         System.out.printf("Sélectionnez la date de départ:\n");
         List<String> dateStrings = new ArrayList<>(dates.keySet());
         index = choisirOption(dateStrings);
-        agenceService.setDateReservation(dates.get(dateStrings.get(index - 1)));
+        agenceService.setDateReservation(
+            dates.get(dateStrings.get(index - 1)));
 
         System.out.printf("Sélecionnez le type de service:\n");
-        index = choisirOption(Arrays.asList("Service simple", "Service haute gamme", "Sans service"));
+        index = choisirOption(Arrays.asList("Service simple",
+            "Service haute gamme", "Sans service"));
         switch (index) {
             case 1:
                 menuServiceSimple();
@@ -125,12 +128,19 @@ public class TextUI {
         faireReservationHotel();
         locationDeVoiture();
 
-        Map<String, Lieu> destinations = agenceService.getHotelDestinationMap();
-        destinations.remove(agenceService.getDestinationActif());
+        Map<String, Lieu> destinations
+            = agenceService.getHotelDestinationMap();
+        destinations.remove(agenceService.getDestinationActif().getNom());
         System.out.printf("Sélectionnez la deuxieme destination:\n");
-        List<String> destinationNames = new ArrayList<>(destinations.keySet());
+        List<String> destinationNames
+            = new ArrayList<>(destinations.keySet());
         int index = choisirOption(destinationNames);
-        Lieu deuxiemeDestination = destinations.get(destinationNames.get(index - 1));
+        Lieu deuxiemeDestination
+            = destinations.get(destinationNames.get(index - 1));
+        agenceService.setDestinationActif(deuxiemeDestination);
+
+        faireReservationHotel();
+        faireReservationVoyage();
         
     }
 
@@ -189,7 +199,8 @@ public class TextUI {
     }
 
     private Calendar lireDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter
+            = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String input = lireChaine();
         return GregorianCalendar.from(
             LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC)
