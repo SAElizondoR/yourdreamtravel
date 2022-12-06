@@ -7,11 +7,13 @@ public abstract class Service {
     private final ServiceId id;
     private final Calendar dateDebut;
     private final Calendar dateFin;
+    private final Lieu lieu;
 
-    protected Service(Calendar dateDebut, Calendar dateFin) {
+    protected Service(Calendar dateDebut, Calendar dateFin, Lieu lieu) {
         id = new ServiceId();
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
+        this.lieu = lieu;
     }
 
     public ServiceId getId() {

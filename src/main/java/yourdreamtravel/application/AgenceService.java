@@ -84,7 +84,7 @@ public class AgenceService {
     public void ajouterServiceHotel(Calendar dateEntree, Calendar dateSortie,
         Hotel hotel, Chambre chambre) {
         Service serviceHotel = new ServiceHotel(dateEntree,
-            dateSortie, hotel, chambre);
+            dateSortie, destinationActif, hotel, chambre);
         reservationActif.addService(serviceHotel);
     }
 
@@ -95,12 +95,16 @@ public class AgenceService {
     public void ajouterServiceVoiture(Calendar dateDebut, Calendar dateFin,
     LoueurVoiture loueur, Voiture voiture) {
         Service loueurVoiture = new ServiceLoueur(dateDebut, dateFin,
-           loueur, voiture);
+            destinationActif, loueur, voiture);
            reservationActif.addService(loueurVoiture);
     }
 
     public Lieu getDestinationActif() {
         return destinationActif;
+    }
+
+    public void setDestinationActif(Lieu destinationActif) {
+        this.destinationActif = destinationActif;
     }
 
     public Client getClientActif() {

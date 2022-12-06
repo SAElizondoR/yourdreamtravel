@@ -6,8 +6,9 @@ public class ServiceLoueur extends Service {
     private LoueurVoiture loueur;
     private Voiture voiture;
 
-    public ServiceLoueur(Calendar dateDebut, Calendar dateFin, LoueurVoiture loueur, Voiture voiture) {
-        super(dateDebut, dateFin);
+    public ServiceLoueur(Calendar dateDebut, Calendar dateFin, Lieu lieu,
+        LoueurVoiture loueur, Voiture voiture) {
+        super(dateDebut, dateFin, lieu);
         this.loueur = loueur;
         this.voiture = voiture;
     }

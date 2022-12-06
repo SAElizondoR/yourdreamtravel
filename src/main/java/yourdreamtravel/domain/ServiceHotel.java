@@ -6,9 +6,9 @@ public class ServiceHotel extends Service {
     private final Hotel hotel;
     private final Chambre chambre;
 
-    public ServiceHotel(Calendar dateEntree, Calendar dateSortie,
+    public ServiceHotel(Calendar dateEntree, Calendar dateSortie, Lieu lieu,
         Hotel hotel, Chambre chambre) {
-        super(dateEntree, dateSortie);
+        super(dateEntree, dateSortie, lieu);
         this.hotel = hotel;
         this.chambre = chambre;
     }
