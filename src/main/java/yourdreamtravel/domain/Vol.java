@@ -9,13 +9,16 @@ public class Vol {
     private final Lieu destination;
     private final Integer duree;
     private final List<Calendar> dates;
+    private final Integer prix;
 
-    public Vol(Lieu depart, Lieu destination, Integer duree, List<Calendar> dates) {
+    public Vol(Lieu depart, Lieu destination, Integer duree,
+        List<Calendar> dates, Integer prix) {
         id = new VolId();
         this.depart = depart;
         this.destination = destination;
         this.duree = duree;
         this.dates = dates;
+        this.prix = prix;
     }
 
     public VolId getId() {
@@ -36,6 +39,10 @@ public class Vol {
 
     public List<Calendar> getDates() {
         return dates;
+    }
+
+    public Integer getPrix() {
+        return prix;
     }
 
     public boolean equals(Object obj) {

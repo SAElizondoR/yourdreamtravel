@@ -1,41 +1,41 @@
 package yourdreamtravel.domain;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Reservation {
     private ReservationId id;
     private Client client;
-    private List<Vol> itineraire;
+    private List<PlaceVol> placeVols;
     private Calendar date;
     private List<Service> services;
+    private boolean reduced;
 
-    public Reservation(Client client, List<Vol> itineraire) {
+    public Reservation(Client client, List<Vol> itineraire, Calendar date,
+        Integer classe) {
         id = new ReservationId();
         this.client = client;
-        this.itineraire = itineraire;
+        this.date = date;
+
+        placeVols = new ArrayList<>();
+        for (Vol vol: itineraire) {
+            placeVols.add(new PlaceVol(vol, classe));
+        }
+
         services = new ArrayList<>();
     }
 
-    public Map<String, Calendar> getDatesPossibles() {
-        Map<String, Calendar> map = new LinkedHashMap<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        for (Calendar datePossible: itineraire.get(0).getDates())
-            map.put(formatter.format(datePossible.getTime()), datePossible);
-        
-        return map;
+    public Vol getVolDepart() {
+        return placeVols.get(0).getVol();
     }
 
     public Lieu getDepart() {
-        return itineraire.get(0).getDepart();
+        return getVolDepart().getDepart();
     }
 
     public Lieu getDestination() {
-        return itineraire.get(itineraire.size() - 1).getDestination();
+        return placeVols.get(placeVols.size() - 1).getVol().getDestination();
     }
 
     public void addService(Service service) {
@@ -46,6 +46,27 @@ public class Reservation {
         this.date = date;
     }
 
+    public void reducePrix() {
+        reduced = true;
+    }
+
+    public Integer computerTotal() {
+        Integer total = 0;
+        for (PlaceVol place: placeVols) {
+            Integer volPrix = place.getVol().getPrix();
+            if (place.getClasse() == 1)
+                volPrix = (int) (1.3 * volPrix);
+            total += volPrix;
+        }
+
+        if (reduced)
+            total = (int) (0.8 * total);
+        
+        for (Service service: services)
+            total += service.getPrix();
+        return total;
+    }
+
     public ReservationId getId() {
         return id;
     }
@@ -53,10 +74,6 @@ public class Reservation {
     public Client getClient() {
         return client;
     }
-
-    public List<Vol> getItineraire() {
-        return itineraire;
-    }    
 
     public List<Service> getServices() {
         return services;

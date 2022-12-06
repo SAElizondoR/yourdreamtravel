@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import yourdreamtravel.domain.Agence;
@@ -35,12 +37,13 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
         List<Lieu> destinations = retrieveDestinationData();
         List<Lieu> hotelDestinations = retrieveHotelDestinationData();
         List<Vol> vols = retrieveVolData(destinations);
+        Map<Lieu, Integer> ticketsReduction = retrieveTicketData(destinations);
         List<Hotel> hotels = retrieveHotelData(hotelDestinations);
         List<LoueurVoiture> loueurs = retrieveLoueurData(hotelDestinations);
         
         Catalogue catalogue = new Catalogue(new CatalogueId(), destinations,
             vols, hotels, loueurs, hotelDestinations);
-        return new Agence(catalogue);
+        return new Agence(catalogue, ticketsReduction);
     }
 
     private List<Lieu> retrieveDestinationData() {
@@ -72,20 +75,20 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
         );
 
         return Arrays.asList(
-            new Vol(destinations.get(0), destinations.get(1), 1, lesDates),
-            new Vol(destinations.get(0), destinations.get(2), 24, lesDates),
-            new Vol(destinations.get(0), destinations.get(4), 8, lesDates),
-            new Vol(destinations.get(1), destinations.get(0), 1, lesDates),
-            new Vol(destinations.get(1), destinations.get(3), 16, lesDates),
-            new Vol(destinations.get(1), destinations.get(4), 10, lesDates),
-            new Vol(destinations.get(2), destinations.get(0), 26, lesDates),
-            new Vol(destinations.get(2), destinations.get(3), 12, lesDates),
-            new Vol(destinations.get(2), destinations.get(4), 15, lesDates),
-            new Vol(destinations.get(3), destinations.get(0), 14, lesDates),
-            new Vol(destinations.get(3), destinations.get(1), 18, lesDates),
-            new Vol(destinations.get(3), destinations.get(2), 12, lesDates),
-            new Vol(destinations.get(4), destinations.get(0), 9, lesDates),
-            new Vol(destinations.get(4), destinations.get(1), 11, lesDates)
+            new Vol(destinations.get(0), destinations.get(1), 1, lesDates, 140),
+            new Vol(destinations.get(0), destinations.get(2), 24, lesDates, 2700),
+            new Vol(destinations.get(0), destinations.get(4), 8, lesDates, 270),
+            new Vol(destinations.get(1), destinations.get(0), 1, lesDates, 200),
+            new Vol(destinations.get(1), destinations.get(3), 16, lesDates, 700),
+            new Vol(destinations.get(1), destinations.get(4), 10, lesDates, 500),
+            new Vol(destinations.get(2), destinations.get(0), 26, lesDates, 1100),
+            new Vol(destinations.get(2), destinations.get(3), 12, lesDates, 900),
+            new Vol(destinations.get(2), destinations.get(4), 15, lesDates, 1100),
+            new Vol(destinations.get(3), destinations.get(0), 14, lesDates, 1200),
+            new Vol(destinations.get(3), destinations.get(1), 18, lesDates, 700),
+            new Vol(destinations.get(3), destinations.get(2), 12, lesDates, 2100),
+            new Vol(destinations.get(4), destinations.get(0), 9, lesDates, 380),
+            new Vol(destinations.get(4), destinations.get(1), 11, lesDates, 630)
         );
     }
 
@@ -134,5 +137,16 @@ public class AgenceRepositoryInMemory implements AgenceRepository {
             new LoueurVoiture(lieux.get(5), "3 Tomson", lesVoitures),
             new LoueurVoiture(lieux.get(6), "4 Pradesh", lesVoitures)
         );
+    }
+
+    private Map<Lieu, Integer> retrieveTicketData(List<Lieu> lieux) {
+        Map<Lieu, Integer> tickets = new HashMap<>();
+        tickets.put(lieux.get(0), 2);
+        tickets.put(lieux.get(1), 3);
+        tickets.put(lieux.get(2), 1);
+        tickets.put(lieux.get(3), 3);
+        tickets.put(lieux.get(4), 0);
+        
+        return tickets;
     }
 }

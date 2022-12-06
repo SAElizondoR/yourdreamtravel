@@ -1,7 +1,8 @@
 package yourdreamtravel.application;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,20 +52,28 @@ public class AgenceService {
         return agence.getCatalogue().getHotelDestinationMap();
     }
 
-    public List<String> proposerItineraire(Lieu depart, Lieu destination) {
-        Map<String, Vol> itineraireMap = agence.getCatalogue()
-            .calculerItineraire(depart, destination);
-        reservationActif = new Reservation(clientActif, new ArrayList<>(itineraireMap.values()));
-        destinationActif = destination;
-        return new ArrayList<>(itineraireMap.keySet());
+    public Map<String, Vol> proposerItineraire(Lieu depart, Lieu destination) {
+        return agence.getCatalogue().calculerItineraire(depart, destination);
     }
 
-    public Map<String, Calendar> getDatesPossibles() {
-        return reservationActif.getDatesPossibles();
+    public Map<String, Calendar> getDatesPossibles(Vol vol) {
+        Map<String, Calendar> map = new LinkedHashMap<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        for (Calendar datePossible: vol.getDates())
+            map.put(formatter.format(datePossible.getTime()), datePossible);
+        
+        return map;
     }
 
     public void setDateReservation(Calendar date) {
         reservationActif.setDate(date);
+    }
+
+    public void creerReservation(List<Vol> itineraire,
+        Calendar date, Integer classe) {
+        reservationActif = new Reservation(clientActif, itineraire, date,
+            classe);
+        destinationActif = reservationActif.getDestination();
     }
 
     public Map<String, Hotel> getHotelMap() {
@@ -82,9 +91,9 @@ public class AgenceService {
     }
 
     public void ajouterServiceHotel(Calendar dateEntree, Calendar dateSortie,
-        Hotel hotel, Chambre chambre) {
+        Hotel hotel, Chambre chambre, boolean prestationsLuxe) {
         Service serviceHotel = new ServiceHotel(dateEntree,
-            dateSortie, destinationActif, hotel, chambre);
+            dateSortie, destinationActif, hotel, chambre, prestationsLuxe);
         reservationActif.addService(serviceHotel);
     }
 
@@ -96,7 +105,7 @@ public class AgenceService {
     LoueurVoiture loueur, Voiture voiture) {
         Service loueurVoiture = new ServiceLoueur(dateDebut, dateFin,
             destinationActif, loueur, voiture);
-           reservationActif.addService(loueurVoiture);
+        reservationActif.addService(loueurVoiture);
     }
 
     public Lieu getDestinationActif() {
@@ -106,6 +115,16 @@ public class AgenceService {
     public void setDestinationActif(Lieu destinationActif) {
         this.destinationActif = destinationActif;
     }
+
+    public Integer computerTotal() {
+        return reservationActif.computerTotal();
+    }
+
+    public void addReservationActif() {
+        agence.addReservation(reservationActif);
+    }
+
+
 
     public Client getClientActif() {
         return clientActif;

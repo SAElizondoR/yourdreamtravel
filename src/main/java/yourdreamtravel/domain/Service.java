@@ -29,6 +29,13 @@ public abstract class Service {
     }
 
     public Long getNombreDeJours() {
-        return TimeUnit.MILLISECONDS.toDays(dateFin.compareTo(dateDebut));
+        return TimeUnit.MILLISECONDS.toDays(Math.abs(
+            dateFin.getTime().getTime() - dateDebut.getTime().getTime()));
     }
+
+    public Lieu getLieu() {
+        return lieu;
+    }
+
+    abstract Integer getPrix();
 }

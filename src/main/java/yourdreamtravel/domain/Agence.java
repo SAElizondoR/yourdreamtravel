@@ -10,12 +10,14 @@ public class Agence {
     private final ArrayList<Client> clients;
     private final ArrayList<Reservation> reservations;
     private final Catalogue catalogue;
+    private final Map<Lieu, Integer> ticketsReduction;
 
-    public Agence(Catalogue catalogue) {
+    public Agence(Catalogue catalogue, Map<Lieu, Integer> ticketsReduction) {
         id = new AgenceId();
         clients = new ArrayList<>();
         reservations = new ArrayList<>();
         this.catalogue = catalogue;
+        this.ticketsReduction = ticketsReduction;
     }
 
     public void addClient(String nom) {
@@ -32,6 +34,17 @@ public class Agence {
 
     public Catalogue getCatalogue() {
         return catalogue;
+    }
+
+    public void addReservation(Reservation reservation) {
+        Lieu destination = reservation.getDestination();
+        Integer numberTicketsReduction
+            = ticketsReduction.get(destination);
+        if (numberTicketsReduction > 0) {
+            ticketsReduction.put(destination, numberTicketsReduction - 1);
+            reservation.reducePrix();
+        }
+        reservations.add(reservation);
     }
 
     public AgenceId getId() {

@@ -20,4 +20,8 @@ public class ServiceLoueur extends Service {
     public Voiture getVoiture() {
         return voiture;
     }
+
+    public Integer getPrix() {
+        return (int) (super.getNombreDeJours() * voiture.getPrix());
+    }
 }

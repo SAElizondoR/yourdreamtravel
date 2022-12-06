@@ -21,7 +21,7 @@ public class Lieu {
         if (!(obj instanceof Lieu))
             return false;
         Lieu other = (Lieu)obj;
-        return id.equals(other.id) && nom.equals(other.nom);
+        return nom.equals(other.nom);
     }
 
     public int hashCode() {

@@ -20,6 +20,7 @@ import yourdreamtravel.domain.Hotel;
 import yourdreamtravel.domain.Lieu;
 import yourdreamtravel.domain.LoueurVoiture;
 import yourdreamtravel.domain.Voiture;
+import yourdreamtravel.domain.Vol;
 
 public class TextUI {
     private final AgenceService agenceService;
@@ -87,19 +88,29 @@ public class TextUI {
         System.out.printf("Sélectionnez la destination:\n");
         index = choisirOption(destinationNames);
         Lieu destination = destinations.get(destinationNames.get(index - 1));
+        Map<String, Vol> itineraire = agenceService.proposerItineraire(depart, destination);
+        List<String> itineraireString = new ArrayList<>(itineraire.keySet());
         System.out.printf("Itinéraire proposé:\n%s\n", String.join("\n",
-            agenceService.proposerItineraire(depart, destination)));
+            itineraireString));
+        List<Vol> itineraireVols = new ArrayList<>(itineraire.values());
 
         index = choisirOption(Arrays.asList("Accepter", "Réfuser"));
         if (index != 1)
             return;
 
-        Map<String, Calendar> dates = agenceService.getDatesPossibles();
+        Map<String, Calendar> dateOptions
+            = agenceService.getDatesPossibles(itineraireVols.get(0));
         System.out.printf("Sélectionnez la date de départ:\n");
-        List<String> dateStrings = new ArrayList<>(dates.keySet());
+        List<String> dateStrings = new ArrayList<>(dateOptions.keySet());
         index = choisirOption(dateStrings);
-        agenceService.setDateReservation(
-            dates.get(dateStrings.get(index - 1)));
+        Calendar date = dateOptions.get(dateStrings.get(index - 1));
+        
+        System.out.printf("Sélectionnez la classe:\n");
+        index = choisirOption(Arrays.asList("Premier classe",
+            "Deuxieme classe"));
+        Integer classe = index;
+
+        agenceService.creerReservation(itineraireVols, date, classe);
 
         System.out.printf("Sélecionnez le type de service:\n");
         index = choisirOption(Arrays.asList("Service simple",
@@ -113,7 +124,8 @@ public class TextUI {
                 break;
             default:
         }
-
+        agenceService.addReservationActif();
+        System.out.printf("Reservation créé !\n");
     }
 
     private void menuServiceSimple() {
@@ -140,8 +152,7 @@ public class TextUI {
         agenceService.setDestinationActif(deuxiemeDestination);
 
         faireReservationHotel();
-        faireReservationVoyage();
-        
+        locationDeVoiture();
     }
 
     private void faireReservationHotel() {
@@ -159,8 +170,13 @@ public class TextUI {
         Calendar dateEntree = lireDate();
         System.out.printf("\nDate de sortie (jj/mm/aaaa): ");
         Calendar dateSortie = lireDate();
+        System.out.printf("Voulez-vous des prestations luxueuses ?");
+        index = choisirOption(Arrays.asList("Oui", "Non"));
+        boolean prestationsLuxe = index == 1;
         agenceService.ajouterServiceHotel(dateEntree, dateSortie,
-            hotel, chambre);
+            hotel, chambre, prestationsLuxe);
+        System.out.printf("Total à payer: %d\n", agenceService.computerTotal());
+        choisirOption(Arrays.asList("Ok"));
     }
 
     private void locationDeVoiture() {
