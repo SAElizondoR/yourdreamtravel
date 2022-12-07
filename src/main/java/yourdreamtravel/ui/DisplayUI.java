@@ -28,15 +28,10 @@ import java.util.Map;
 
 public class DisplayUI {
     private final AgenceService agenceService;
-    private final BufferedReader buff;
-
-    @FXML
-    private TextField ClientNametxt;
 
 
 
     public DisplayUI() {
-        buff = new BufferedReader(new InputStreamReader(System.in));
         agenceService = new AgenceService();
     }
 
