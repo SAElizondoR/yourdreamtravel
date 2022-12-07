@@ -19,9 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import yourdreamtravel.application.AgenceService;
-import yourdreamtravel.domain.Client;
-import yourdreamtravel.domain.Lieu;
-import yourdreamtravel.domain.Vol;
+import yourdreamtravel.domain.*;
 
 import java.io.*;
 import java.util.*;
@@ -171,7 +169,7 @@ public class DisplayUI {
                             Map<String, Calendar> dateOptions = agenceService.getDatesPossibles(itineraireVols.get(0));
                             System.out.printf("Sélectionnez la date de départ:\n");
                             List<String> dateStrings = new ArrayList<>(dateOptions.keySet());
-                            choisirDateDeDepart(root, dateStrings, dateOptions);
+                            choisirDateDeDepart(root, dateStrings, dateOptions, itineraireVols);
 
                         }
 
@@ -182,7 +180,7 @@ public class DisplayUI {
         root.getChildren().addAll(myComboBox2, label2);
     }
 
-    private void choisirDateDeDepart(Pane root, List<String> dateStrings, Map<String, Calendar> dateOptions){
+    private void choisirDateDeDepart(Pane root, List<String> dateStrings, Map<String, Calendar> dateOptions, List<Vol> itineraireVols){
         ComboBox<String> myComboBox3 = new ComboBox<String>();
         Label label3 = new Label("date de depart: ");
         label3.setLayoutX(0);
@@ -200,7 +198,7 @@ public class DisplayUI {
                 for(int i =0; i<dateStrings.size(); i++){
                     if(dateOptions.get(dateStrings.get(i)).getTime().toString().equals(myComboBox3.getValue())){
                         Calendar date = dateOptions.get(dateStrings.get(i));
-                        ChosirClasse(root);
+                        ChosirClasse(root, itineraireVols,date);
                     }
                 }
             }
@@ -209,7 +207,7 @@ public class DisplayUI {
     }
 
 
-    private void ChosirClasse(Pane root){
+    private void ChosirClasse(Pane root, List<Vol> itineraireVols, Calendar date){
         ComboBox<String> myComboBox4 = new ComboBox<String>();
         Label label4 = new Label("Classe ");
         label4.setLayoutX(0);
@@ -225,10 +223,12 @@ public class DisplayUI {
                 for(int i =0; i<2; i++) {
                     switch (myComboBox4.getValue()) {
                         case "Premiere classe":
-                            //menuServiceSimple();
+                            agenceService.creerReservation(itineraireVols, date, 1);
+                            ChosirService(root);
                             break;
                         case "Deuxieme classe":
-                            //menuServiceHauteGamme();
+                            agenceService.creerReservation(itineraireVols, date, 2);
+                            ChosirService(root);
                             break;
                         default:
                     }
@@ -237,6 +237,103 @@ public class DisplayUI {
         });
         root.getChildren().addAll(myComboBox4, label4);
     }
+
+
+    private void ChosirService(Pane root){
+        ComboBox<String> myComboBox5 = new ComboBox<String>();
+        Label label5 = new Label("Service ");
+        label5.setLayoutX(0);
+        label5.setLayoutY(200);
+        label5.setStyle("-fx-font-size: 18");
+        myComboBox5.setLayoutY(200);
+        myComboBox5.setLayoutX(130);
+        myComboBox5.getItems().add("Service simple");
+        myComboBox5.getItems().add("Service haute gamme");
+        myComboBox5.setEditable(true);
+        myComboBox5.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =0; i<2; i++) {
+                    switch (myComboBox5.getValue()) {
+                        case "Service simple":
+                            menuServiceSimple(root);
+                            break;
+                        case "Service haute gamme":
+                            //menuServiceHauteGamme();
+                            break;
+                        default:
+                    }
+                }
+            }
+        });
+        root.getChildren().addAll(myComboBox5, label5);
+    }
+
+    private void menuServiceSimple(Pane root) {
+        faireReservationHotel(root);
+    }
+
+    private void faireReservationHotel(Pane root) {
+        ComboBox<String> myComboBox6 = new ComboBox<String>();
+        Label label6 = new Label("Hotel : ");
+        label6.setLayoutX(0);
+        label6.setLayoutY(250);
+        label6.setStyle("-fx-font-size: 18");
+        myComboBox6.setLayoutX(130);
+        myComboBox6.setLayoutY(250);
+
+        Map<String, Hotel> hotels = agenceService.getHotelMap();
+        System.out.printf("FAIRE UNE RÉSERVATION D'HOTEL\n");
+        List<String> hotelNames = new ArrayList<>(hotels.keySet());
+
+        for(int i=0; i<hotelNames.size(); i++) {
+            myComboBox6.getItems().add(hotels.get(hotelNames.get(i)).getNom());
+        }
+        myComboBox6.setEditable(true);
+        myComboBox6.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =0; i<hotelNames.size(); i++){
+                    if(hotels.get(hotelNames.get(i)).getNom().equals(myComboBox6.getValue())){
+                        Hotel hotel = hotels.get(hotelNames.get(i));
+                        FaireReservationChambre(root, hotel);
+                    }
+                }
+            }
+        });
+        root.getChildren().addAll(myComboBox6, label6);
+
+    }
+
+    private void FaireReservationChambre(Pane root, Hotel hotel){
+        ComboBox<String> myComboBox7 = new ComboBox<String>();
+        Label label7 = new Label("Chambre : ");
+        label7.setStyle("-fx-font-size: 18");
+        label7.setLayoutX(0);
+        label7.setLayoutY(300);
+        myComboBox7.setLayoutX(130);
+        myComboBox7.setLayoutY(300);
+
+        Map<String, Chambre> chambres = agenceService.getChambreMap(hotel);
+        System.out.printf("Sélectionnez une chambre:\n");
+        List<String> chambreNames = new ArrayList<>(chambres.keySet());
+
+        for(int i=0; i<chambreNames.size(); i++) {
+            myComboBox7.getItems().add("taille: " + chambres.get(chambreNames.get(i)).getTaille().toString() + " Prix: " + chambres.get(chambreNames.get(i)).getPrix().toString());
+        }
+        myComboBox7.setEditable(true);
+        myComboBox7.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =0; i<chambreNames.size(); i++){
+                    if(("taille: " + chambres.get(chambreNames.get(i)).getTaille().toString() + " Prix: " + chambres.get(chambreNames.get(i)).getPrix().toString()).equals(myComboBox7.getValue())){
+                        Chambre chambre = chambres.get(chambreNames.get(i));
+                        System.out.println("taille: " + chambres.get(chambreNames.get(i)).getTaille().toString() + " Prix: " + chambres.get(chambreNames.get(i)).getPrix().toString());
+                        //FaireReservationChambre(root, hotel);
+                    }
+                }
+            }
+        });
+        root.getChildren().addAll(myComboBox7, label7);
+    }
+
 
     private void faireReservationVoyage(Pane root) {
         Map<String, Lieu> destinations = agenceService.getDestinationMap();
