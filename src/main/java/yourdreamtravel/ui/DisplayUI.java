@@ -108,8 +108,7 @@ public class DisplayUI {
         }
     }
 
-    private Lieu lieuDeDepart(Pane root, List<String> destinationNames, Map<String, Lieu> destinations){
-        final Lieu[] depart = new Lieu[1];
+    private void lieuDeDepart(Pane root, List<String> destinationNames, Map<String, Lieu> destinations){
         ComboBox<String> myComboBox1 = new ComboBox<String>();
         Label label1 = new Label("Lieu de depart : ");
         label1.setLayoutX(0);
@@ -126,19 +125,17 @@ public class DisplayUI {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<destinationNames.size(); i++){
                     if(destinations.get(destinationNames.get(i)).getNom().equals(myComboBox1.getValue())){
-                        depart[0] = destinations.get(destinationNames.get(i));
-                        //System.out.println(destinations.get(destinationNames.get(i)).getNom());
-                        destinationNames.remove(i);
+                        Lieu depart = destinations.get(destinationNames.get(i));
+                        //destinationNames.remove(i);
+                        lieuDestination(root, destinationNames, destinations, depart);
                     }
                 }
             }
         });
         root.getChildren().addAll(myComboBox1, label1);
-        return depart[0];
     }
 
-    private Lieu lieuDestination(Pane root, List<String> destinationNames, Map<String, Lieu> destinations) {
-        final Lieu[] destination = new Lieu[1];
+    private void lieuDestination(Pane root, List<String> destinationNames, Map<String, Lieu> destinations, Lieu depart) {
         ComboBox<String> myComboBox2 = new ComboBox<String>();
         Label label2 = new Label("Lieu d'arriver : ");
         label2.setLayoutX(0);
@@ -155,31 +152,94 @@ public class DisplayUI {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<destinationNames.size(); i++){
                     if(destinations.get(destinationNames.get(i)).getNom().equals(myComboBox2.getValue())){
-                        destination[0] = destinations.get(destinationNames.get(i));
-                        //System.out.println(destinations.get(destinationNames.get(i)).getNom());
-                        destinationNames.remove(i);
+                        Lieu destination = destinations.get(destinationNames.get(i));
+                        if(depart.equals(destination)){
+                            Alert alert=new Alert(Alert.AlertType.WARNING);
+                            alert.setContentText("impossible");
+                            alert.show();
+                            System.out.println("impossible");
+                        }
+                        else{
+                            Map<String, Vol> itineraire = agenceService.proposerItineraire(depart, destination);
+                            List<String> itineraireString = new ArrayList<>(itineraire.keySet());
+                            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setContentText("Itinéraire proposé: " +String.join("\n", itineraireString));
+                            alert.show();
+                            System.out.printf("Itinéraire proposé:\n%s\n", String.join("\n",
+                                itineraireString));
+                            List<Vol> itineraireVols = new ArrayList<>(itineraire.values());
+                        }
+
                     }
                 }
             }
         });
         root.getChildren().addAll(myComboBox2, label2);
-        return destination[0];
+    }
+
+    private void choisirDateDeDepart(Pane root){
+
     }
 
     private void faireReservationVoyage(Pane root) {
         Map<String, Lieu> destinations = agenceService.getDestinationMap();
         List<String> destinationNames = new ArrayList<>(destinations.keySet());
-        Lieu depart = lieuDeDepart(root, destinationNames, destinations);
-        Lieu destination = lieuDestination(root, destinationNames, destinations);
+        lieuDeDepart(root, destinationNames, destinations);
 
+
+
+        /*
+        System.out.printf("FAIRE UNE RÉSERVATION DE VOYAGE\n");
+
+        Map<String, Lieu> destinations = agenceService.getDestinationMap();
+        System.out.printf("Sélectionnez le lieu de départ:\n");
+        List<String> destinationNames = new ArrayList<>(destinations.keySet());
+        int index = choisirOption(destinationNames);
+        Lieu depart = destinations.get(destinationNames.get(index - 1));
+        destinationNames.remove(index - 1);
+
+        System.out.printf("Sélectionnez la destination:\n");
+        index = choisirOption(destinationNames);
+        Lieu destination = destinations.get(destinationNames.get(index - 1));
         Map<String, Vol> itineraire = agenceService.proposerItineraire(depart, destination);
         List<String> itineraireString = new ArrayList<>(itineraire.keySet());
         System.out.printf("Itinéraire proposé:\n%s\n", String.join("\n",
             itineraireString));
         List<Vol> itineraireVols = new ArrayList<>(itineraire.values());
 
+        index = choisirOption(Arrays.asList("Accepter", "Réfuser"));
+        if (index != 1)
+            return;
 
+        Map<String, Calendar> dateOptions
+            = agenceService.getDatesPossibles(itineraireVols.get(0));
+        System.out.printf("Sélectionnez la date de départ:\n");
+        List<String> dateStrings = new ArrayList<>(dateOptions.keySet());
+        index = choisirOption(dateStrings);
+        Calendar date = dateOptions.get(dateStrings.get(index - 1));
 
+        System.out.printf("Sélectionnez la classe:\n");
+        index = choisirOption(Arrays.asList("Premier classe",
+            "Deuxieme classe"));
+        Integer classe = index;
+
+        agenceService.creerReservation(itineraireVols, date, classe);
+
+        System.out.printf("Sélecionnez le type de service:\n");
+        index = choisirOption(Arrays.asList("Service simple",
+            "Service haute gamme", "Sans service"));
+        switch (index) {
+            case 1:
+                menuServiceSimple();
+                break;
+            case 2:
+                menuServiceHauteGamme();
+                break;
+            default:
+        }
+        agenceService.addReservationActif();
+        System.out.printf("Reservation créé !\n");
+         */
     }
 
 
