@@ -38,8 +38,16 @@ public class Reservation {
         return placeVols.get(placeVols.size() - 1).getVol().getDestination();
     }
 
+    public List<PlaceVol> getPlaceVols() {
+        return placeVols;
+    }
+
     public void addService(Service service) {
         services.add(service);
+    }
+
+    public List<Service> getServices() {
+        return services;
     }
 
     public void setDate(Calendar date) {
@@ -48,6 +56,10 @@ public class Reservation {
 
     public void reducePrix() {
         reduced = true;
+    }
+
+    public boolean isReduced() {
+        return reduced;
     }
 
     public Integer computerTotal() {

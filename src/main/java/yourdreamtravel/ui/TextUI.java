@@ -36,7 +36,8 @@ public class TextUI {
         do {
             System.out.printf("\nSÉLECTIONNER UNE OPTION\n");
             choix = choisirOption(Arrays.asList("Créer client",
-                "Selectionner un client", "Quitter le programme"));
+                "Selectionner un client", "Sauver l'information",
+                "Quitter le programme"));
             switch (choix) {
                 case 1:
                     creerClient();
@@ -44,9 +45,12 @@ public class TextUI {
                 case 2:
                     selectionnerClient();
                     break;
+                case 3:
+                    sauverInformation();
+                    break;
                 default:
             }
-        } while (choix != 3);
+        } while (choix != 4);
     }
 
     private void creerClient() {
@@ -205,6 +209,15 @@ public class TextUI {
         System.out.printf("\n");
         agenceService.ajouterServiceVoiture(dateDebut, dateFin,
             loueur, voiture);
+    }
+
+    private void sauverInformation() {
+        try {
+            agenceService.saveRepository();
+            System.out.println("L'information a été sauve! (agence.txt)");
+        } catch (IOException e) {
+            System.out.println("Impossible de sauver\n");
+        }
     }
 
     private int choisirOption(List<String> options) {

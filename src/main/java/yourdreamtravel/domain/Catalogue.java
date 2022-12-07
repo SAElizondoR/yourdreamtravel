@@ -24,6 +24,10 @@ public class Catalogue {
         this.hotelDestinations = hotelDestinations;
     }
 
+    public List<Lieu> getDestinations() {
+        return destinations;
+    }
+
     public Map<String, Lieu> getDestinationMap() {
         Map<String, Lieu> map = new LinkedHashMap<>();
         for (Lieu lieu: destinations)
@@ -32,12 +36,20 @@ public class Catalogue {
         return map;
     }
 
+    public List<Lieu> getHotelDestinations() {
+        return hotelDestinations;
+    }
+
     public Map<String, Lieu> getHotelDestinationMap() {
         Map<String, Lieu> map = new LinkedHashMap<>();
         for (Lieu lieu: hotelDestinations)
             map.put(lieu.getNom(), lieu);
         
         return map;
+    }
+
+    public List<Vol> getVols() {
+        return vols;
     }
 
     public Map<String, Vol> calculerItineraire(Lieu depart, Lieu destination) {
@@ -70,6 +82,10 @@ public class Catalogue {
         return itineraire;
     }
 
+    public List<Hotel> getHotels() {
+        return hotels;
+    }
+
     public Map<String, Hotel> getHotelMap(Lieu lieu) {
         Map<String, Hotel> map = new LinkedHashMap<>();
         for (Hotel hotel: hotels)
@@ -77,6 +93,10 @@ public class Catalogue {
                 map.put(hotel.getNom(), hotel);
         
         return map;
+    }
+
+    public List<LoueurVoiture> getLoueurs() {
+        return loueurs;
     }
 
     public Map<String, LoueurVoiture> getLoueurMap(Lieu lieu) {

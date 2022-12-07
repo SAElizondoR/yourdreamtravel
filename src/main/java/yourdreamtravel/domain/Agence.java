@@ -2,12 +2,13 @@ package yourdreamtravel.domain;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Agence {
     private final AgenceId id;
-    private final ArrayList<Client> clients;
-    private final ArrayList<Reservation> reservations;
+    private final List<Client> clients;
+    private final List<Reservation> reservations;
     private final Catalogue catalogue;
     private final Map<Lieu, Integer> ticketsReduction;
 
@@ -21,6 +22,10 @@ public class Agence {
 
     public void addClient(String nom) {
         clients.add(new Client(new ClientId(), nom));
+    }
+
+    public List<Client> getClients() {
+        return clients;
     }
 
     public Map<String, Client> getClientsMap() {
@@ -46,7 +51,15 @@ public class Agence {
         reservations.add(reservation);
     }
 
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
     public AgenceId getId() {
         return id;
+    }
+
+    public Map<Lieu, Integer> getTicketsReduction() {
+        return ticketsReduction;
     }
 }

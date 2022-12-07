@@ -29,6 +29,10 @@ public class LoueurVoiture {
         return adresse;
     }
 
+    public List<Voiture> getVoitures() {
+        return voitures;
+    }
+
     public Map<String, Voiture> getVoitureMap() {
         Map<String, Voiture> map = new LinkedHashMap<>();
         for (Voiture voiture: voitures) {

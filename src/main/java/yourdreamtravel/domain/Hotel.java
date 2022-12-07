@@ -29,6 +29,10 @@ public class Hotel {
         return lieu;
     }
 
+    public List<Chambre> getChambres() {
+        return chambres;
+    }
+
     public Map<String, Chambre> getChambreMap() {
         Map<String, Chambre> map = new LinkedHashMap<>();
         for (Chambre chambre: chambres) {

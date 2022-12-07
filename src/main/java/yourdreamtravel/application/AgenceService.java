@@ -1,5 +1,6 @@
 package yourdreamtravel.application;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -18,17 +19,20 @@ import yourdreamtravel.domain.Service;
 import yourdreamtravel.domain.ServiceHotel;
 import yourdreamtravel.domain.ServiceLoueur;
 import yourdreamtravel.domain.Voiture;
+import yourdreamtravel.infra.AgenceRepositoryInJSON;
 import yourdreamtravel.infra.AgenceRepositoryInMemory;
 
 public class AgenceService {
     private final Agence agence;
     private final AgenceRepositoryInMemory repository;
+    private final AgenceRepositoryInJSON jsonRepository;
     private Client clientActif;
     private Reservation reservationActif;
     private Lieu destinationActif;
 
     public AgenceService() {
         repository = new AgenceRepositoryInMemory();
+        jsonRepository = new AgenceRepositoryInJSON();
         agence = repository.retrieveAgenceData();
     }
 
@@ -122,5 +126,9 @@ public class AgenceService {
 
     public void addReservationActif() {
         agence.addReservation(reservationActif);
+    }
+
+    public void saveRepository() throws IOException {
+        jsonRepository.save(agence);
     }
 }

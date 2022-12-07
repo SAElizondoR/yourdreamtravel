@@ -23,6 +23,10 @@ public class ServiceHotel extends Service {
         return chambre;
     }
 
+    public boolean getPrestations() {
+        return prestationsLuxe;
+    }
+
     public Integer getPrix() {
         Integer prix = (int) (super.getNombreDeJours() * chambre.getPrix());
         if (prestationsLuxe)
