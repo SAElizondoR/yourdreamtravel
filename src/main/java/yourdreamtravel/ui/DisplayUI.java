@@ -1,25 +1,30 @@
 package yourdreamtravel.ui;
 
 import javafx.beans.binding.IntegerBinding;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import yourdreamtravel.application.AgenceService;
+import yourdreamtravel.domain.Client;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DisplayUI {
     private final AgenceService agenceService;
@@ -69,6 +74,50 @@ public class DisplayUI {
         newWindow.show();
     }
 
+    private void selectionClient(){
+        Stage newWindow = new Stage();
+        try {
+            Pane root = new Pane();
+            Scene scene = new Scene(root,400,400);
+            //scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+
+            Map<String, Client> clients = agenceService.getClientsMap();
+            List<String> clientNames = new ArrayList<>(clients.keySet());
+
+            ListView<String> listView = new ListView<String>();
+            ObservableList<String> list = FXCollections.observableArrayList();
+            listView.setItems(list);
+            for(int i=0; i<clientNames.size(); i++) {
+                list.add(clients.get(clientNames.get(i)).getNom());
+            }
+
+            listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            listView.setOnMouseClicked(new EventHandler<Event>() {
+                @Override
+                public void handle(Event event) {
+                    ObservableList<String> selectedItems =  listView.getSelectionModel().getSelectedItems();
+                    for(String s : selectedItems){
+                        for(int i =0; i<clients.size(); i++){
+                            if(clients.get(clientNames.get(i)).getNom().equals(s)){
+                                agenceService.setClientActif(clients.get(clientNames.get(i)));
+                                System.out.println("selected item " + s);
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setContentText(s+" est selectionné");
+                                alert.show();
+                                newWindow.close();
+                            }
+                        }
+                    }
+                }
+            });
+            root.getChildren().add(listView);
+            newWindow.setScene(scene);
+            newWindow.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void run(Stage primaryStage) throws FileNotFoundException {
         InputStream stream = new FileInputStream("src/main/java/yourdreamtravel/fond.jpg");
         Image image = new Image(stream);
@@ -91,24 +140,7 @@ public class DisplayUI {
         buttonSelectClient.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                //Label secondLabel = new Label("selectionner un client");
-
-                StackPane secondaryLayout = new StackPane();
-                //secondaryLayout.getChildren().add(secondLabel);
-
-                Scene secondScene = new Scene(secondaryLayout, 400, 400);
-
-                // New window (Stage)
-                Stage newWindow = new Stage();
-                newWindow.setTitle("selectionner un client");
-                newWindow.setScene(secondScene);
-
-                // Set position of second window, related to primary window.
-                newWindow.setX(primaryStage.getX() + 100);
-                newWindow.setY(primaryStage.getY() + 100);
-
-                newWindow.show();
+                selectionClient();
             }
         });
 
