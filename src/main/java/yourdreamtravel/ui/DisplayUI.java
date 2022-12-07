@@ -1,8 +1,11 @@
 package yourdreamtravel.ui;
 
+import javafx.beans.binding.IntegerBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import yourdreamtravel.application.AgenceService;
 
@@ -32,12 +36,37 @@ public class DisplayUI {
     }
 
     private void creerClient() {
-        String ClientName = ClientNametxt.getText();
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("creation du client");
-        agenceService.addClient(ClientName);
-        alert.setContentText(ClientName+" est un client!\n");
-        alert.showAndWait();
+        VBox root = new VBox();
+        root.setPadding(new Insets(25));
+        root.setAlignment(Pos.CENTER);
+        Label label = new Label("Quel est votre nom ? ");
+        TextField name = new TextField("");
+        Scene secondScene = new Scene(root, 400, 400);
+        Stage newWindow = new Stage();
+
+        Button buttonValide = new Button();
+        buttonValide.setText("valider");
+        buttonValide.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                agenceService.addClient(name.textProperty().getValue());
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText(name.textProperty().getValue()+" est un client");
+                alert.show();
+                newWindow.close();
+            }
+        });
+
+        root.getChildren().addAll(label, name, buttonValide);
+
+        newWindow.setTitle("Creer un client");
+        newWindow.setScene(secondScene);
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(newWindow.getX() + 100);
+        newWindow.setY(newWindow.getY() + 100);
+
+        newWindow.show();
     }
 
     public void run(Stage primaryStage) throws FileNotFoundException {
@@ -56,26 +85,6 @@ public class DisplayUI {
             @Override
             public void handle(ActionEvent event) {
                 creerClient();
-                /*
-                //Label secondLabel = new Label("Creer un client");
-
-                StackPane secondaryLayout = new StackPane();
-                //secondaryLayout.getChildren().add(secondLabel);
-
-                Scene secondScene = new Scene(secondaryLayout, 400, 400);
-
-                // New window (Stage)
-                Stage newWindow = new Stage();
-                newWindow.setTitle("Creer un client");
-                newWindow.setScene(secondScene);
-
-                // Set position of second window, related to primary window.
-                newWindow.setX(primaryStage.getX() + 100);
-                newWindow.setY(primaryStage.getY() + 100);
-
-                newWindow.show();
-
-                 */
             }
         });
 
