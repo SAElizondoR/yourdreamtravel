@@ -22,6 +22,9 @@ import yourdreamtravel.application.AgenceService;
 import yourdreamtravel.domain.*;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class DisplayUI {
@@ -65,14 +68,14 @@ public class DisplayUI {
     }
 
     private void selectionClient() throws FileNotFoundException {
-        InputStream stream = new FileInputStream("src/main/java/yourdreamtravel/fond.jpg");
+        InputStream stream = new FileInputStream("src/main/java/yourdreamtravel/fond2.jpeg");
         Image image = new Image(stream);
         ImageView imageView = new ImageView();
         imageView.setImage(image);
         Stage newWindow = new Stage();
         try {
             Pane root = new Pane();
-            Scene scene = new Scene(root,400,400);
+            Scene scene = new Scene(root,1000,750);
             Map<String, Client> clients = agenceService.getClientsMap();
             List<String> clientNames = new ArrayList<>(clients.keySet());
             ListView<String> listView = new ListView<String>();
@@ -118,7 +121,6 @@ public class DisplayUI {
         for(int i=0; i<destinationNames.size(); i++) {
             myComboBox1.getItems().add(destinations.get(destinationNames.get(i)).getNom());
         }
-        myComboBox1.setEditable(true);
         myComboBox1.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<destinationNames.size(); i++){
@@ -145,7 +147,6 @@ public class DisplayUI {
         for(int i=0; i<destinationNames.size(); i++) {
             myComboBox2.getItems().add(destinations.get(destinationNames.get(i)).getNom());
         }
-        myComboBox2.setEditable(true);
         myComboBox2.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<destinationNames.size(); i++){
@@ -192,7 +193,6 @@ public class DisplayUI {
         for(int i=0; i<dateStrings.size(); i++) {
             myComboBox3.getItems().add(dateOptions.get(dateStrings.get(i)).getTime().toString());
         }
-        myComboBox3.setEditable(true);
         myComboBox3.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<dateStrings.size(); i++){
@@ -217,7 +217,6 @@ public class DisplayUI {
         myComboBox4.setLayoutY(150);
         myComboBox4.getItems().add("Premiere classe");
         myComboBox4.getItems().add("Deuxieme classe");
-        myComboBox4.setEditable(true);
         myComboBox4.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<2; i++) {
@@ -249,7 +248,6 @@ public class DisplayUI {
         myComboBox5.setLayoutX(130);
         myComboBox5.getItems().add("Service simple");
         myComboBox5.getItems().add("Service haute gamme");
-        myComboBox5.setEditable(true);
         myComboBox5.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<2; i++) {
@@ -288,7 +286,6 @@ public class DisplayUI {
         for(int i=0; i<hotelNames.size(); i++) {
             myComboBox6.getItems().add(hotels.get(hotelNames.get(i)).getNom());
         }
-        myComboBox6.setEditable(true);
         myComboBox6.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<hotelNames.size(); i++){
@@ -304,12 +301,52 @@ public class DisplayUI {
     }
 
     private void FaireReservationChambre(Pane root, Hotel hotel){
+        final int[] jourArrive = new int[1];
+        final int[] jourSortie = new int[1];
+        final int[] moisArrive = new int[1];
+        final int[] moisSortie = new int[1];
+        final int[] AnneArrive = new int[1];
+        final int[] AnneeSortie = new int[1];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        final Calendar[] dateDebut = new Calendar[1];
+        final Calendar[] DateFin = new Calendar[1];
+
+        ComboBox<String> myComboBoxjour = new ComboBox<String>();
+        ComboBox<String> myComboBoxmois = new ComboBox<String>();
+        ComboBox<String> myComboBoxannee = new ComboBox<String>();
+        Label label2 = new Label("Date d'entrée (jj/mm/aaaa): ");
+        label2.setStyle("-fx-font-size: 15");
+        label2.setLayoutX(0);
+        label2.setLayoutY(350);
+        myComboBoxjour.setLayoutX(220);
+        myComboBoxjour.setLayoutY(350);
+        myComboBoxmois.setLayoutX(260);
+        myComboBoxmois.setLayoutY(350);
+        myComboBoxannee.setLayoutX(300);
+        myComboBoxannee.setLayoutY(350);
+        TextField name2 = new TextField("");
+
+        ComboBox<String> myComboBoxjour2 = new ComboBox<String>();
+        ComboBox<String> myComboBoxmois2= new ComboBox<String>();
+        ComboBox<String> myComboBoxannee2 = new ComboBox<String>();
+        Label label3 = new Label("Date de sortie (jj/mm/aaaa): ");
+        label3.setStyle("-fx-font-size: 15");
+        label3.setLayoutX(0);
+        label3.setLayoutY(370);
+        myComboBoxjour2.setLayoutX(220);
+        myComboBoxjour2.setLayoutY(370);
+        myComboBoxmois2.setLayoutX(260);
+        myComboBoxmois2.setLayoutY(370);
+        myComboBoxannee2.setLayoutX(300);
+        myComboBoxannee2.setLayoutY(370);
+        TextField name3 = new TextField("");
+
         ComboBox<String> myComboBox7 = new ComboBox<String>();
         Label label7 = new Label("Chambre : ");
         label7.setStyle("-fx-font-size: 18");
         label7.setLayoutX(0);
         label7.setLayoutY(300);
-        myComboBox7.setLayoutX(130);
+        myComboBox7.setLayoutX(170);
         myComboBox7.setLayoutY(300);
 
         Map<String, Chambre> chambres = agenceService.getChambreMap(hotel);
@@ -319,19 +356,104 @@ public class DisplayUI {
         for(int i=0; i<chambreNames.size(); i++) {
             myComboBox7.getItems().add("taille: " + chambres.get(chambreNames.get(i)).getTaille().toString() + " Prix: " + chambres.get(chambreNames.get(i)).getPrix().toString());
         }
-        myComboBox7.setEditable(true);
         myComboBox7.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
                 for(int i =0; i<chambreNames.size(); i++){
                     if(("taille: " + chambres.get(chambreNames.get(i)).getTaille().toString() + " Prix: " + chambres.get(chambreNames.get(i)).getPrix().toString()).equals(myComboBox7.getValue())){
                         Chambre chambre = chambres.get(chambreNames.get(i));
-                        System.out.println("taille: " + chambres.get(chambreNames.get(i)).getTaille().toString() + " Prix: " + chambres.get(chambreNames.get(i)).getPrix().toString());
-                        //FaireReservationChambre(root, hotel);
+
                     }
                 }
             }
         });
-        root.getChildren().addAll(myComboBox7, label7);
+
+        for(int i=1; i<32; i++) {
+            myComboBoxjour.getItems().add(String.valueOf(i));
+            myComboBoxjour2.getItems().add(String.valueOf(i));
+        }
+        myComboBoxjour.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =1; i<32; i++){
+                    if(String.valueOf(i).equals(myComboBoxjour.getValue())){
+                        jourArrive[0] =i;
+                        String input = jourArrive[0]+"/"+moisArrive[0]+"/"+AnneArrive[0];
+                        String input2 = jourSortie[0]+"/"+moisSortie[0]+"/"+AnneeSortie[0];
+                        System.out.println(input);
+                    }
+                }
+            }
+        });
+        myComboBoxjour2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =1; i<32; i++){
+                    if(String.valueOf(i).equals(myComboBoxjour2.getValue())){
+                        jourSortie[0] =i;
+                        String input = jourArrive[0]+"/"+moisArrive[0]+"/"+AnneArrive[0];
+                        String input2 = jourSortie[0]+"/"+moisSortie[0]+"/"+AnneeSortie[0];
+                        System.out.println(input);
+                    }
+                }
+            }
+        });
+        for(int i=1; i<13; i++) {
+            myComboBoxmois.getItems().add(String.valueOf(i));
+            myComboBoxmois2.getItems().add(String.valueOf(i));
+        }
+        myComboBoxmois.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =1; i<13; i++){
+                    if(String.valueOf(i).equals(myComboBoxmois.getValue())){
+                        moisArrive[0] =i;
+                        String input = jourArrive[0]+"/"+moisArrive[0]+"/"+AnneArrive[0];
+                        String input2 = jourSortie[0]+"/"+moisSortie[0]+"/"+AnneeSortie[0];
+                        System.out.println(input);
+                    }
+                }
+            }
+        });
+        myComboBoxmois2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =1; i<13; i++){
+                    if(String.valueOf(i).equals(myComboBoxmois2.getValue())){
+                        moisSortie[0] =i;
+                        String input = jourArrive[0]+"/"+moisArrive[0]+"/"+AnneArrive[0];
+                        String input2 = jourSortie[0]+"/"+moisSortie[0]+"/"+AnneeSortie[0];
+                        System.out.println(input);
+                    }
+                }
+            }
+        });
+
+        for(int i=0; i<10000; i++) {
+            myComboBoxannee.getItems().add(String.valueOf(i));
+            myComboBoxannee2.getItems().add(String.valueOf(i));
+        }
+        myComboBoxannee.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =0; i<10000; i++){
+                    if(String.valueOf(i).equals(myComboBoxannee.getValue())){
+                        AnneArrive[0] =i;
+                        String input = jourArrive[0]+"/"+moisArrive[0]+"/"+AnneArrive[0];
+                        String input2 = jourSortie[0]+"/"+moisSortie[0]+"/"+AnneeSortie[0];
+                        System.out.println(input);
+                    }
+                }
+            }
+        });
+        myComboBoxannee2.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent ae) {
+                for(int i =0; i<10000; i++){
+                    if(String.valueOf(i).equals(myComboBoxannee2.getValue())){
+                        AnneeSortie[0] =i;
+                        String input = jourArrive[0]+"/"+moisArrive[0]+"/"+AnneArrive[0];
+                        String input2 = jourSortie[0]+"/"+moisSortie[0]+"/"+AnneeSortie[0];
+                        System.out.println(input);
+                    }
+                }
+            }
+        });
+
+        root.getChildren().addAll(myComboBox7, myComboBoxjour, myComboBoxmois, myComboBoxannee, myComboBoxjour2, myComboBoxmois2, myComboBoxannee2, label7, label2, label3);
     }
 
 

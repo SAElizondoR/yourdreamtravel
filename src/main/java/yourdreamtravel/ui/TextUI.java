@@ -104,7 +104,7 @@ public class TextUI {
         List<String> dateStrings = new ArrayList<>(dateOptions.keySet());
         index = choisirOption(dateStrings);
         Calendar date = dateOptions.get(dateStrings.get(index - 1));
-        
+
         System.out.printf("Sélectionnez la classe:\n");
         index = choisirOption(Arrays.asList("Premier classe",
             "Deuxieme classe"));
