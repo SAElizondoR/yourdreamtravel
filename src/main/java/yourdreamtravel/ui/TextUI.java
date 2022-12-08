@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -136,7 +137,7 @@ public class TextUI {
         }
         agenceService.addReservationActif();
 
-        System.out.printf("Total à payer: %d\n", agenceService.computerTotal());
+        System.out.printf("Total à payer: %d euros\n", agenceService.computerTotal());
         choisirOption(Arrays.asList("Ok"));
 
         System.out.printf("Reservation créé !\n");
@@ -245,11 +246,18 @@ public class TextUI {
 
     private Calendar lireDate() {
         DateTimeFormatter formatter
-            = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String input = lireChaine();
-        return GregorianCalendar.from(
-            LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC)
-        );
+            = DateTimeFormatter.ofPattern("d/M/yyyy");
+        formatter.withResolverStyle(ResolverStyle.LENIENT);
+        do {
+            String input = lireChaine();
+            try {
+                return GregorianCalendar.from(
+                    LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC)
+                );
+            } catch (Exception e) {
+                System.out.printf("Le format n'est pas valide. Entrez une date valide (dd/MM/yyyy): ");
+            }
+        } while (true);
     }
 
     private String lireChaine() {
