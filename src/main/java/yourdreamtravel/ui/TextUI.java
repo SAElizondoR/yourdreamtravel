@@ -49,9 +49,11 @@ public class TextUI {
                 case 3:
                     sauverInformation();
                     break;
+                case 4:
+                    return;
                 default:
             }
-        } while (choix != 4);
+        } while (true);
     }
 
     private void creerClient() {

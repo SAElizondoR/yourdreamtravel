@@ -2,6 +2,7 @@ package yourdreamtravel.domain;
 
 public class PlaceVol {
     private final PlaceVolId id;
+    private static Integer counter = 0;
     private Vol vol;
     private Integer place;
     private Integer classe;
@@ -10,6 +11,7 @@ public class PlaceVol {
         id = new PlaceVolId();
         this.vol = vol;
         this.classe = classe;
+        place = counter++;
     }
 
     public PlaceVolId getId() {

@@ -3,6 +3,7 @@ package yourdreamtravel;
 import yourdreamtravel.ui.DisplayUI;
 import yourdreamtravel.ui.TextUI;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -60,7 +61,8 @@ public final class App extends Application{
                 case 2:
                     TextUI textUI = new TextUI();
                     textUI.run();
-                    break;
+                    Platform.exit();
+                    return;
                 default:
             }
     }
