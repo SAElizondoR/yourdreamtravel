@@ -80,7 +80,7 @@ public class DisplayUI {
     }
 
     private void selectionClient() throws FileNotFoundException {
-        InputStream stream = new FileInputStream("src/main/java/yourdreamtravel/fond2.jpeg");
+        InputStream stream = new FileInputStream("fond2.jpeg");
         Image image = new Image(stream);
         ImageView imageView = new ImageView();
         imageView.setImage(image);
@@ -871,7 +871,7 @@ public class DisplayUI {
 
 
     public void run(Stage primaryStage) throws FileNotFoundException {
-        InputStream stream = new FileInputStream("src/main/java/yourdreamtravel/fond.jpg");
+        InputStream stream = new FileInputStream("fond.jpg");
         Image image = new Image(stream);
         ImageView imageView = new ImageView();
         imageView.setImage(image);
