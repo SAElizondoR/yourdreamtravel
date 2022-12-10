@@ -265,10 +265,10 @@ public class DisplayUI {
                 for(int i =0; i<2; i++) {
                     switch (myComboBox5.getValue()) {
                         case "Service simple":
-                            menuServiceSimple(root, false);
+                            menuServiceSimple(root);
                             break;
                         case "Service haute gamme":
-                            menuServiceHauteGamme(root, true);
+                            menuServiceHauteGamme(root);
                             break;
                         default:
                     }
@@ -278,15 +278,15 @@ public class DisplayUI {
         root.getChildren().addAll(myComboBox5, label5);
     }
 
-    private void menuServiceSimple(Pane root, boolean hg) {
-        faireReservationHotel(root, hg);
+    private void menuServiceSimple(Pane root) {
+        faireReservationHotel(root);
     }
 
-    private void menuServiceHauteGamme(Pane root, boolean hg) {
-        faireReservationHotel(root, hg);
+    private void menuServiceHauteGamme(Pane root) {
+        faireReservationHotel(root);
     }
 
-    private void faireReservationHotel(Pane root, boolean hg) {
+    private void faireReservationHotel(Pane root) {
         ComboBox<String> myComboBox6 = new ComboBox<String>();
         Label label6 = new Label("Hotel : ");
         label6.setLayoutX(0);
@@ -307,7 +307,7 @@ public class DisplayUI {
                 for(int i =0; i<hotelNames.size(); i++){
                     if(hotels.get(hotelNames.get(i)).getNom().equals(myComboBox6.getValue())){
                         Hotel hotel = hotels.get(hotelNames.get(i));
-                        FaireReservationChambre(root, hotel, hg);
+                        FaireReservationChambre(root, hotel);
                     }
                 }
             }
@@ -316,7 +316,7 @@ public class DisplayUI {
 
     }
 
-    private void FaireReservationChambre(Pane root, Hotel hotel, boolean hg){
+    private void FaireReservationChambre(Pane root, Hotel hotel){
         final Chambre[] chambre = new Chambre[1];
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
         formatter.withResolverStyle(ResolverStyle.LENIENT);
@@ -404,7 +404,7 @@ public class DisplayUI {
                             String input2 = jourSortie[0] + "/" + moisSortie[0] + "/" + AnneeSortie[0];
                             Calendar dateEntree = GregorianCalendar.from(LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC));
                             Calendar dateSortie = GregorianCalendar.from(LocalDate.parse(input2, formatter).atStartOfDay(ZoneOffset.UTC));
-                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0], hg);
+                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0]);
                             System.out.println(input);
                             System.out.println(input2);
                         }
@@ -427,7 +427,7 @@ public class DisplayUI {
                             String input2 = jourSortie[0] + "/" + moisSortie[0] + "/" + AnneeSortie[0];
                             Calendar dateEntree = GregorianCalendar.from(LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC));
                             Calendar dateSortie = GregorianCalendar.from(LocalDate.parse(input2, formatter).atStartOfDay(ZoneOffset.UTC));
-                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0], hg);
+                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0]);
                             System.out.println(input);
                             System.out.println(input2);
                         }
@@ -454,7 +454,7 @@ public class DisplayUI {
                             String input2 = jourSortie[0] + "/" + moisSortie[0] + "/" + AnneeSortie[0];
                             Calendar dateEntree = GregorianCalendar.from(LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC));
                             Calendar dateSortie = GregorianCalendar.from(LocalDate.parse(input2, formatter).atStartOfDay(ZoneOffset.UTC));
-                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0], hg);
+                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0]);
                             System.out.println(input);
                             System.out.println(input2);
                         }
@@ -477,7 +477,7 @@ public class DisplayUI {
                             String input2 = jourSortie[0] + "/" + moisSortie[0] + "/" + AnneeSortie[0];
                             Calendar dateEntree = GregorianCalendar.from(LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC));
                             Calendar dateSortie = GregorianCalendar.from(LocalDate.parse(input2, formatter).atStartOfDay(ZoneOffset.UTC));
-                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0], hg);
+                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0]);
                             System.out.println(input);
                             System.out.println(input2);
                         }
@@ -500,7 +500,7 @@ public class DisplayUI {
                             String input2 = jourSortie[0] + "/" + moisSortie[0] + "/" + AnneeSortie[0];
                             Calendar dateEntree = GregorianCalendar.from(LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC));
                             Calendar dateSortie = GregorianCalendar.from(LocalDate.parse(input2, formatter).atStartOfDay(ZoneOffset.UTC));
-                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0], hg);
+                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0]);
                             System.out.println(input);
                             System.out.println(input2);
                         }
@@ -518,7 +518,7 @@ public class DisplayUI {
                             String input2 = jourSortie[0] + "/" + moisSortie[0] + "/" + AnneeSortie[0];
                             Calendar dateEntree = GregorianCalendar.from(LocalDate.parse(input, formatter).atStartOfDay(ZoneOffset.UTC));
                             Calendar dateSortie = GregorianCalendar.from(LocalDate.parse(input2, formatter).atStartOfDay(ZoneOffset.UTC));
-                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0], hg);
+                            prestationLuxueuse(root, dateEntree, dateSortie, hotel, chambre[0]);
                             System.out.println(input);
                             System.out.println(input2);
                         }
@@ -530,7 +530,7 @@ public class DisplayUI {
         root.getChildren().addAll(myComboBox7, myComboBoxjour, myComboBoxmois, myComboBoxannee, myComboBoxjour2, myComboBoxmois2, myComboBoxannee2, label7, label2, label3);
     }
 
-    void prestationLuxueuse(Pane root, Calendar dateEntree, Calendar dateSortie, Hotel hotel, Chambre chambre, boolean hg){
+    void prestationLuxueuse(Pane root, Calendar dateEntree, Calendar dateSortie, Hotel hotel, Chambre chambre){
         ComboBox<String> myComboBox4 = new ComboBox<String>();
         Label label4 = new Label("Voulez vous des prestations luxueuse? ");
         label4.setLayoutX(0);
@@ -542,19 +542,11 @@ public class DisplayUI {
         myComboBox4.getItems().add("Non");
         myComboBox4.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent ae) {
-                for(int i =0; i<2; i++) {
+                //for(int i =0; i<2; i++) {
                     switch (myComboBox4.getValue()) {
                         case "Oui":
                             agenceService.ajouterServiceHotel(dateEntree, dateSortie, hotel, chambre, true);
-                            if(hg==true){
-                                locationDeVoiture(root);
-                                agenceService.addReservationActif();
-                                Alert alert= new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setContentText("Total à payer: "+ agenceService.computerTotal() + "euros");
-                                alert.show();
-                                root.getChildren().clear();
-                            }
-
+                            locationDeVoiture(root);
 
                             break;
                         case "Non":
@@ -563,9 +555,12 @@ public class DisplayUI {
                             alert1.setContentText("Total à payer: "+ agenceService.computerTotal() + "euros");
                             alert1.show();
                             root.getChildren().clear();
+                            Label results = new Label("Merci votre reservation est prise !");
+                            results.layoutXProperty().bind(root.widthProperty().subtract(results.widthProperty()).divide(2));
+                            root.getChildren().add(results);
                             break;
                         default:
-                    }
+                    //}
                 }
             }
         });
@@ -820,42 +815,47 @@ public class DisplayUI {
             alert.setContentText("Total à payer: "+ agenceService.computerTotal() + "euros");
             alert.show();
             root.getChildren().clear();
+            Label results = new Label("Merci votre reservation est prise !");
+            results.layoutXProperty().bind(root.widthProperty().subtract(results.widthProperty()).divide(2));
+            root.getChildren().add(results);
 
         }
+        else {
 
-        ComboBox<String> myComboBox6 = new ComboBox<String>();
-        Label label6 = new Label("Sélectionnez la deuxieme destination: ");
-        label6.setLayoutX(0);
-        label6.setLayoutY(600);
-        label6.setStyle("-fx-font-size: 18");
-        myComboBox6.setLayoutX(320);
-        myComboBox6.setLayoutY(600);
+            ComboBox<String> myComboBox6 = new ComboBox<String>();
+            Label label6 = new Label("Sélectionnez la deuxieme destination: ");
+            label6.setLayoutX(0);
+            label6.setLayoutY(600);
+            label6.setStyle("-fx-font-size: 18");
+            myComboBox6.setLayoutX(320);
+            myComboBox6.setLayoutY(600);
 
-        Map<String, Lieu> destinations = agenceService.getHotelDestinationMap();
-        destinations.remove(agenceService.getDestinationActif().getNom());
-        System.out.printf("\n");
-        List<String> destinationNames = new ArrayList<>(destinations.keySet());
+            Map<String, Lieu> destinations = agenceService.getHotelDestinationMap();
+            destinations.remove(agenceService.getDestinationActif().getNom());
+            System.out.printf("\n");
+            List<String> destinationNames = new ArrayList<>(destinations.keySet());
 
-        for(int i=0; i<destinationNames.size(); i++) {
-            myComboBox6.getItems().add(destinations.get(destinationNames.get(i)).getNom());
-        }
-        myComboBox6.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent ae) {
-                for(int i =0; i<destinationNames.size(); i++){
-                    if(destinations.get(destinationNames.get(i)).getNom().equals(myComboBox6.getValue())){
-                        Lieu deuxiemeDestination = destinations.get(destinationNames.get(i));
-                        agenceService.setDestinationActif(deuxiemeDestination);
-                        fin=true;
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setContentText("Refaire depuis hotel pour reserver le deuxieme");
-                        alert.show();
-                        faireReservationHotel(root, true);
+            for (int i = 0; i < destinationNames.size(); i++) {
+                myComboBox6.getItems().add(destinations.get(destinationNames.get(i)).getNom());
+            }
+            myComboBox6.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent ae) {
+                    for (int i = 0; i < destinationNames.size(); i++) {
+                        if (destinations.get(destinationNames.get(i)).getNom().equals(myComboBox6.getValue())) {
+                            Lieu deuxiemeDestination = destinations.get(destinationNames.get(i));
+                            agenceService.setDestinationActif(deuxiemeDestination);
+                            fin = true;
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setContentText("Refaire depuis hotel pour reserver le deuxieme");
+                            alert.show();
+                            faireReservationHotel(root);
 
+                        }
                     }
                 }
-            }
-        });
-        root.getChildren().addAll(myComboBox6, label6);
+            });
+            root.getChildren().addAll(myComboBox6, label6);
+        }
     }
 
 
